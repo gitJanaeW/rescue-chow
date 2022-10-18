@@ -4,7 +4,8 @@ const Footer = () => {
     return (
         <footer>
             <div>
-                <a href="/">info@rescuechow.com</a>
+                {/* Add links */}
+                <a href="mailto: info@rescuechow.com">info@rescuechow.com</a>
                 <a href="/">Call (905) 767-8372</a>
             </div>
             <div>

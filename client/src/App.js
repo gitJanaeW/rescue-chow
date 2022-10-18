@@ -3,6 +3,10 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
+import WhoWeAre from './pages/WhoWeAre';
+import OrderNow from './pages/OrderNow';
+import FindARescue from './pages/FindARescue';
+import GetInTouch from './pages/GetInTouch';
 
 function App() {
   return (
@@ -11,13 +15,12 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<Home/>}/>
-            {/* <Route path='/' element={<WhoWeAre/>}/>
-            <Route path='/' element={<OrderNow/>}/>
-            <Route path='/' element={<FindARescue/>}/>
-            <Route path='/' element={<GetInTouch/>}/> */}
+            <Route path='/who-we-are' element={<WhoWeAre/>}/>
+            <Route path='/order-now' element={<OrderNow/>}/>
+            <Route path='/find-a-rescue' element={<FindARescue/>}/>
+            <Route path='/get-in-touch' element={<GetInTouch/>}/>
           </Routes>  
-        </BrowserRouter>
-        
+        </BrowserRouter>  
         <Footer/>
       </main>
   );
