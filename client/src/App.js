@@ -11,17 +11,17 @@ import GetInTouch from './pages/GetInTouch';
 function App() {
   return (
       <main>
-        <Header/>
-        <BrowserRouter>
+        <BrowserRouter>  
+          <Header/>
           <Routes>
             <Route path='/' element={<Home/>}/>
             <Route path='/who-we-are' element={<WhoWeAre/>}/>
-            <Route path='/order-now' element={<OrderNow/>}/>
+            <Route path='/shop' element={<OrderNow/>}/>
             <Route path='/find-a-rescue' element={<FindARescue/>}/>
             <Route path='/get-in-touch' element={<GetInTouch/>}/>
-          </Routes>  
-        </BrowserRouter>  
-        <Footer/>
+          </Routes>
+          <Footer/>
+        </BrowserRouter>
       </main>
   );
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const WhoWeAre = () => {
     return (
@@ -15,8 +16,7 @@ const WhoWeAre = () => {
                 {/* This link is beyond MVP */}
                 <p>Register  ►</p>
                 <h3>Orders Treats...</h3>
-                {/* Should link to Order Now page */}
-                <p>Order Now  ►</p>
+                <Link to="/order-now">Order Now  ►</Link>
                 <h3>25% Goes Directly To The Chosen Rescue...</h3>
                 <p>
                     Each Registered Rescue is given a unique link to ensure that supporter's purchases are given to the correct charity or rescue. Rescue Admins have access to the back end of our platform to track and see how successful their campaign is going, and how many funds have been raised. Full transparency is part of our integral approach and mandate.
@@ -33,8 +33,7 @@ const WhoWeAre = () => {
                 <p>
                     On average $2.50 goes towards helping animals in rescue within our community.
                 </p>
-                {/* Should link to Order Now */}
-                <button><p>Order Now  ►</p></button>
+                <button><Link to="/shop">Order Now  ►</Link></button>
             </div>
         </div>
     );

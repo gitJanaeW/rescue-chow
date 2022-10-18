@@ -39,7 +39,7 @@ const GetInTouch = () => {
             <div>
                 <div>
                     <h3>You Can Call Us At</h3>
-                    <h4>+1(905) 767-8372</h4>
+                    <h4><a href="tel:+19057678372">+1(905) 767-8372</a></h4>
                 </div>
                 <div>
                     <h3>Email Us</h3>
@@ -47,14 +47,14 @@ const GetInTouch = () => {
                 </div>
                 <div>
                     <h3>Facebook</h3>
-                    <h4>FACEBOOKLOGO</h4>
+                    <a href="https://www.facebook.com/rescuechow" target="_blank" rel="noreferrer">facebook logo goes here</a>
                 </div>
             </div>
             <div>
                 {/* Google Maps of business location goes here. I forgot how to do that so I'll have to check */}
             </div>
             <div>
-                <h1>Reach Out</h1>
+                <h2>Send Your Questions</h2>
                 <div>
                     <div>
                         <form onSubmit={logEmail}>

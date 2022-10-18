@@ -26,7 +26,7 @@ const Home = () => {
             </div>
             <div>
                 <h2>Contact Us</h2>
-                <button><p>Learn More  ►</p></button>
+                <button><Link to="/get-in-touch">Learn More  ►</Link></button>
             </div>
             <div>
                 <h2>Choose a Rescue to Support</h2>
@@ -36,7 +36,7 @@ const Home = () => {
                 <p>
                     With every purchase, $2 goes towards helping animals in rescue within our Canadian community. We help rescues throughout Canada including Ontario, British Columbia, and Quebec.
                 </p>
-                <button><Link to="/order-now">Get Started  ►</Link></button>
+                <button><Link to="/shop">Get Started  ►</Link></button>
             </div>
         </div>
     );
