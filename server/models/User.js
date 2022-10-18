@@ -1,7 +1,7 @@
 const {Schema, model, Schema} = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const Schema = new Schema(
+const userSchema = new Schema(
     {
         email: {
             type: String,
@@ -40,7 +40,6 @@ const Schema = new Schema(
 );
 
 // before saving new User, bcrypt the password
-// NOTE: there might be a bug with the 'next' parameter. it should be yellow not blue
 userSchema.pre('save', async function(next) {
     if (this.isNew || this.isModified('password')) {
       const saltRounds = 10;
