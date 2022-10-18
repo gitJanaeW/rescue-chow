@@ -1,18 +1,12 @@
 const {Schema, model} = require('mongoose');
-const bcrypt = require('bcrypt');
 
-const userSchema = new Schema(
+const guestSchema = new Schema(
     {
         email: {
             type: String,
             required: true,
             unique: true,
             match: [/.+@.+\..+/, 'Please enter a valid email address.']
-        },
-        password: {
-            type: String,
-            required: true,
-            minLength: 8
         },
         firstName: {
             type: String,
@@ -43,25 +37,11 @@ const userSchema = new Schema(
     }
 );
 
-// before saving new User, bcrypt the password
-userSchema.pre('save', async function(next) {
-    if (this.isNew || this.isModified('password')) {
-      const saltRounds = 10;
-      this.password = await bcrypt.hash(this.password, saltRounds);
-    }
-    next();
-});
-
-// check if the password is correct
-userSchema.methods.isCorrectPassword = async function(password) {
-    return bcrypt.compare(password, this.password)
-};
-
-// add a cartCount virtual to user object
-userSchema.virtual('cartCount').get(function() {
+// add a cartCount virtual to guest object
+guestSchema.virtual('cartCount').get(function() {
     return this.cart.length;
 });
 
-const User = model('User', userSchema);
+const Guest = model('Guest', guestSchema);
 
-module.exports = User;
+module.exports = Guest;
