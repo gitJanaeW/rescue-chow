@@ -1,6 +1,6 @@
 const {AuthenticationError} = require('apollo-server-express');
 // import models here
-// import JWT token handler here
+const {signToken, authMiddleware} = require('../utils/auth') ;
 
 const resolvers = {
     Query: {
