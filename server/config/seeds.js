@@ -1,5 +1,6 @@
-const db = require('./connection');
-const { User, Product, Category } = require('../models');
+const db = require('./connections');
+const { User } = require('../models');
+const { Product, Category } = require('../models');
 
 db.once('open', async () => {
   await Category.deleteMany();
@@ -37,7 +38,7 @@ db.once('open', async () => {
       name: 'Beef Liver Treats 180g',
       description:
         'Healthy, Rich in Iron, Breakable, Human grade, 100% Canadian Dehydrated Dog Treats -Great for training, as small little pieces can be broken off and given as a reward or daily treat.',
-      image: 'Dried--Beef-Liver-300x400.jpg',
+      image: 'Dried-Beef-Liver-300x400.jpg',
       category: categories[1]._id,
       price: 9.99,
       quantity: 1
