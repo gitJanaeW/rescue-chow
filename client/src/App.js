@@ -1,39 +1,38 @@
-import React from 'react';
-import './App.css';
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-import WhoWeAre from './pages/WhoWeAre';
-import OrderNow from './pages/OrderNow';
-import FindARescue from './pages/FindARescue';
-import GetInTouch from './pages/GetInTouch';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import WhoWeAre from "./pages/WhoWeAre";
+import OrderNow from "./pages/OrderNow";
+import FindARescue from "./pages/FindARescue";
+import GetInTouch from "./pages/GetInTouch";
 import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
   createHttpLink,
-} from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-import Detail from './pages/shopping/Detail';
-import NoMatch from './pages/shopping/NoMatch';
-import Login from './pages/shopping/Login';
-import Signup from './pages/shopping/Signup';
-import Nav from './components/Nav';
-import { StoreProvider } from './utils/shopping/GlobalState';
-import Success from './pages/shopping/Success';
-import OrderHistory from './pages/shopping/OrderHistory';
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import Detail from "./pages/shopping/Detail";
+import NoMatch from "./pages/shopping/NoMatch";
+import Login from "./pages/shopping/Login";
+import Signup from "./pages/shopping/Signup";
+
+import { StoreProvider } from "./utils/shopping/GlobalState";
+import Success from "./pages/shopping/Success";
+import OrderHistory from "./pages/shopping/OrderHistory";
 
 const httpLink = createHttpLink({
-  uri: '/graphql',
+  uri: "/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('id_token');
+  const token = localStorage.getItem("id_token");
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '',
+      authorization: token ? `Bearer ${token}` : "",
     },
   };
 });
@@ -49,20 +48,20 @@ function App() {
       <Router>
         <div>
           <StoreProvider>
-          <Header/>
-            <Nav />
+            <Header />
+
             <Routes>
-              <Route path="/" element={<Home />}/>
-              <Route path='/who-we-are' element={<WhoWeAre/>}/>
-              <Route path='/shop' element={<OrderNow/>}/>
-              <Route path='/find-a-rescue' element={<FindARescue/>}/>
-              <Route path='/get-in-touch' element={<GetInTouch/>}/>
-              <Route path="/login" element={<Login />}/>
-              <Route path="/signup" element={<Signup />}/>
-              <Route path="/success" element={<Success />}/>
-              <Route path="/orderHistory" element={<OrderHistory />}/>
-              <Route path="/products/:id" element={<Detail />}/>
-              <Route path="*" element={<NoMatch />}/>
+              <Route path="/" element={<Home />} />
+              <Route path="/who-we-are" element={<WhoWeAre />} />
+              <Route path="/shop" element={<OrderNow />} />
+              <Route path="/find-a-rescue" element={<FindARescue />} />
+              <Route path="/get-in-touch" element={<GetInTouch />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/success" element={<Success />} />
+              <Route path="/orderHistory" element={<OrderHistory />} />
+              <Route path="/products/:id" element={<Detail />} />
+              <Route path="*" element={<NoMatch />} />
             </Routes>
           </StoreProvider>
           <Footer />
