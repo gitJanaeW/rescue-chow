@@ -1,13 +1,9 @@
-const Billing = require('./Billing');
-const Guest = require('./Guest');
-const Orders = require('./Orders');
+const Orders = require('./shopping/Orders');
 const Rescues = require('./Rescues');
 const Treats = require('./Treats');
-const User = require('./User');
+const User = require('./shopping/User');
 
 module.exports = {
-    Billing,
-    Guest,
     Orders,
     Rescues,
     Treats,

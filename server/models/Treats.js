@@ -16,10 +16,10 @@ const treatSchema = new Schema(
             type: Number,
             required: true
         },
-        description {
+        description: {
             type: String,
             required: true
-        }
+        },
         // this would be used to keep track of new-ness of the product for filter functionality (beyondMVP)
         createdAt: {
             type: Date,
@@ -37,4 +37,4 @@ const treatSchema = new Schema(
 
 const Treats = model('Treats', treatSchema);
 
-module.exports = Treat;
+module.exports = Treats;
