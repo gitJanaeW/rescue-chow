@@ -21,16 +21,15 @@ const navigation = [
 
 let userNavigation = [];
 
-function hello() {
-  console.log("hello world");
-  // Auth.logout()
+function Logout() {
+  Auth.logout();
 }
 
 function showNavigation() {
   if (Auth.loggedIn()) {
     userNavigation = [
       ...userNavigation,
-      { name: "Logout", href: "/", onclick: hello },
+      { name: "Logout", href: "/", onclick: Logout },
       { name: "Order History", href: "/orderHistory" },
     ];
   } else {
