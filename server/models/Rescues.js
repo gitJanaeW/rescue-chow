@@ -9,6 +9,10 @@ const rescueSchema = new Schema(
         website: {
             type: String,
             required: false
+        },
+        amountOwed: {
+            type: Number,
+            required: true
         }
     },
     {
