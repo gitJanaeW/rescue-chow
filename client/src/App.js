@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
+
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import WhoWeAre from "./pages/WhoWeAre";
@@ -22,6 +22,7 @@ import Signup from "./pages/shopping/Signup";
 import { StoreProvider } from "./utils/shopping/GlobalState";
 import Success from "./pages/shopping/Success";
 import OrderHistory from "./pages/shopping/OrderHistory";
+import Nav from "./components/Nav";
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -48,7 +49,7 @@ function App() {
       <Router>
         <div>
           <StoreProvider>
-            <Header />
+            <Nav />
 
             <Routes>
               <Route path="/" element={<Home />} />
