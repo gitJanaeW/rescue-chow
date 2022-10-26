@@ -30,6 +30,13 @@ const typeDefs = gql`
     orders: [Order]
   }
 
+  type Rescue {
+    _id: ID
+    name: String
+    website: String
+    amountOwed: Int
+  }
+
   type Auth {
     token: ID
     user: User
@@ -50,6 +57,7 @@ const typeDefs = gql`
     updateUser(firstName: String, lastName: String, email: String, password: String): User
     updateProduct(_id: ID!, quantity: Int!): Product
     login(email: String!, password: String!): Auth
+    addRescue(name: String!, website: String, amountOwed: Int!): Rescue
   }
 
   type Checkout {

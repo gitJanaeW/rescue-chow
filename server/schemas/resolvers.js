@@ -1,5 +1,5 @@
 const {AuthenticationError} = require('apollo-server-express');
-const { User, Product, Category, Orders } = require('../models');
+const { User, Product, Category, Orders, Rescues } = require('../models');
 // import models here
 const {signToken} = require('../utils/auth') ;
 //stripe sk secret key
@@ -110,6 +110,9 @@ const resolvers = {
       }
 
       throw new AuthenticationError('Not logged in');
+    },
+    addRescue: async (parent, args) => {
+      return await Rescues.create(args);
     },
     updateUser: async (parent, args, context) => {
       if (context.user) {
