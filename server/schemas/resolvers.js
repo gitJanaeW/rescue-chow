@@ -1,9 +1,9 @@
 const {AuthenticationError} = require('apollo-server-express');
-const { User, Product, Category, Order } = require('../models');
+const { User, Product, Category, Orders } = require('../models');
 // import models here
-const {signToken, authMiddleware} = require('../utils/auth') ;
+const {signToken} = require('../utils/auth') ;
 //stripe sk secret key
-const stripe = require('stripe')('pk_test_TYooMQauvdEDq54NiTphI7jx');
+const stripe = require('stripe')('sk_test_51LwAJXFZoRYZwQnKrB1KDnIQTimvYiaK2LxWeGS58kKJYCsj1MTns20e5GJsZJW5cLSM248C2PrsIJau71yxEYhi00CsrFsfQo');
 
 const resolvers = {
     Query: {
@@ -12,7 +12,8 @@ const resolvers = {
           },
       
           checkout: async (parent, args, context) => {
-            const order = new Order({ products: args.products });
+            const url = new URL(context.headers.referer).origin; // https://localhost:3001 or new URL(context.headers.referer).origin;
+            const order = new Orders({ products: args.products });
             const { products } = await order.populate('products');
             const line_items = [];
       
@@ -20,7 +21,8 @@ const resolvers = {
               // generate product id
               const product = await stripe.products.create({
                 name: products[i].name,
-                description: products[i].description
+                description: products[i].description,
+                images: [`${url}/images/${products[i].image}`]
               });
       
               // generate price id using the product id
@@ -40,8 +42,8 @@ const resolvers = {
               payment_method_types: ['card'],
               line_items,
               mode: 'payment',
-              success_url: 'https://example.com/success?session_id={CHECKOUT_SESSION_ID}',
-              cancel_url: 'https://example.com/cancel'
+              success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
+              cancel_url: `${url}/`
             });
             
             return { session: session.id };
@@ -102,7 +104,7 @@ const resolvers = {
           addOrder: async (parent, { products }, context) => {
             console.log(context);
             if (context.user) {
-              const order = new Order({ products });
+              const order = new Orders({ products });
       
               await User.findByIdAndUpdate(context.user._id, { $push: { orders: order } });
       
