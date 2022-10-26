@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.3.7",
+    "@headlessui/react": "^1.7.3",
+    "@heroicons/react": "^2.0.12",
     "@stripe/stripe-js": "^1.42.0",
     "graphql": "^16.6.0",
     "http-proxy-middleware": "^2.0.6",
