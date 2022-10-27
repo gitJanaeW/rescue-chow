@@ -68,3 +68,14 @@ export const QUERY_USER = gql`
     }
   }
 `;
+
+export const QUERY_RESCUES = gql`
+  {
+    rescues {
+      _id
+      name
+      website
+      amountOwed
+    }
+  }
+`;
