@@ -10,6 +10,9 @@ module.exports = {
       colors: {
         "grey-223": "#DFDFDF",
       },
+      fontFamily: {
+        love: "'Lovers Quarrel', cursive",
+      },
     },
   },
   plugins: [],
