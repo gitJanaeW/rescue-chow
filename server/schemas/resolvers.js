@@ -7,9 +7,10 @@ const stripe = require('stripe')('sk_test_51LwAJXFZoRYZwQnKrB1KDnIQTimvYiaK2LxWe
 
 const resolvers = {
   Query: {
-    categories: async () => {
+  categories: async () => {
       return await Category.find();
     },
+
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin; // https://localhost:3001 or new URL(context.headers.referer).origin;
       const order = new Orders({ products: args.products });
@@ -39,6 +40,32 @@ const resolvers = {
       }
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
+        shipping_address_collection: {
+          allowed_countries: ['US', 'CA'],
+        },
+        shipping_options: [
+          {
+            shipping_rate_data: {
+              type: 'fixed_amount',
+              fixed_amount: {
+                amount: 0,
+                currency: 'usd',
+              },
+              display_name: 'Free shipping',
+              // Delivers between 5-7 business days
+              delivery_estimate: {
+                minimum: {
+                  unit: 'business_day',
+                  value: 5,
+                },
+                maximum: {
+                  unit: 'business_day',
+                  value: 7,
+                },
+              }
+            }
+          },
+        ],
         line_items,
         mode: 'payment',
         success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
@@ -47,6 +74,7 @@ const resolvers = {
       
       return { session: session.id };
     },
+
     products: async (parent, { category, name }) => {
       const params = {};
 
@@ -88,7 +116,7 @@ const resolvers = {
 
         return user.orders.id(_id);
       }
-    
+
       throw new AuthenticationError('Not logged in');
     }
   },
@@ -110,9 +138,6 @@ const resolvers = {
       }
 
       throw new AuthenticationError('Not logged in');
-    },
-    addRescue: async (parent, args) => {
-      return await Rescues.create(args);
     },
     updateUser: async (parent, args, context) => {
       if (context.user) {
@@ -145,5 +170,5 @@ const resolvers = {
     }
   }
 };
-      
+
 module.exports = resolvers;
