@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import rescueChow from "../assets/Rescue-Chow-Logo-white-outline.gif";
 import petsAbout from "../assets/pets-about-free-img.png";
+import chooseRescueImg from "../assets/pet-with-girl-free-img.png";
 
 const Home = () => {
   return (
@@ -122,10 +123,10 @@ const Home = () => {
                       aria-hidden="true"
                       className="pointer-events-none lg:absolute lg:inset-y-0 lg:mx-auto lg:w-full lg:max-w-7xl"
                     >
-                      <div className="absolute transform sm:left-1/2 sm:top-0 sm:translate-x-8 lg:left-1/2 lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-8">
+                      <div className="absolute transform sm:left-1/2 sm:top-0 sm:translate-x-8 lg:left-1/2 lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-4">
                         <div className="flex items-center space-x-6 lg:space-x-8">
                           <img
-                            src={petsAbout}
+                            src={chooseRescueImg}
                             alt=""
                             className="h-full w-full object-cover object-center"
                           />
@@ -134,33 +135,15 @@ const Home = () => {
                     </div>
 
                     <a
-                      href="/who-we-are"
+                      href="/shop"
                       className="inline-block rounded-md border border-transparent bg-white py-3 px-8 text-center font-medium text-red-400 hover:bg-black"
                     >
-                      Learn More!
+                      Get Started
                     </a>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div>
-            <h2>Choose a Rescue to Support</h2>
-            <p>
-              Rescue Chow is an animal rescue fundraising initiative that
-              assists rescues in need with fundraising. When your supporters
-              purchase a treat package, 20% of proceeds go to your animal rescue
-              or charity of choice.
-            </p>
-            <p>
-              With every purchase, $2 goes towards helping animals in rescue
-              within our Canadian community. We help rescues throughout Canada
-              including Ontario, British Columbia, and Quebec.
-            </p>
-            <button>
-              <Link to="/shop">Get Started ►</Link>
-            </button>
           </div>
         </div>
       </main>
