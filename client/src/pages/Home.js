@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import rescueChow from "../assets/Rescue-Chow-Logo-white-outline.gif";
 import petsAbout from "../assets/pets-about-free-img.png";
 import chooseRescueImg from "../assets/pet-with-girl-free-img.png";
