@@ -1,7 +1,7 @@
-const {AuthenticationError} = require('apollo-server-express');
+const { AuthenticationError } = require('apollo-server-express');
 const { User, Product, Category, Orders, Rescues } = require('../models');
 // import models here
-const {signToken} = require('../utils/auth') ;
+const { signToken } = require('../utils/auth');
 //stripe sk secret key
 const stripe = require('stripe')('sk_test_51LwAJXFZoRYZwQnKrB1KDnIQTimvYiaK2LxWeGS58kKJYCsj1MTns20e5GJsZJW5cLSM248C2PrsIJau71yxEYhi00CsrFsfQo');
 
@@ -44,7 +44,7 @@ const resolvers = {
         success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${url}/`
       });
-      
+
       return { session: session.id };
     },
     products: async (parent, { category, name }) => {
@@ -88,7 +88,7 @@ const resolvers = {
 
         return user.orders.id(_id);
       }
-    
+
       throw new AuthenticationError('Not logged in');
     }
   },
@@ -145,5 +145,5 @@ const resolvers = {
     }
   }
 };
-      
+
 module.exports = resolvers;
