@@ -37,6 +37,7 @@ function ProductItem(item) {
       idbPromise('cart', 'put', { ...item, purchaseQuantity: 1 });
     }
   }
+  // const rescueProduct = item.filter(item => item.category.name === "Rescues")
 
   const getProceeds = (productPrice) => {
     const charityCut = productPrice / 4;
@@ -60,6 +61,8 @@ function ProductItem(item) {
         <span>(${getProceeds(price)} to charity)</span>
       </div>
       <button onClick={addToCart}>Add to cart</button>
+
+      <div></div>
     </div>
   );
 }
