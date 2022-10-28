@@ -38,6 +38,12 @@ function ProductItem(item) {
     }
   }
 
+  const getProceeds = (productPrice) => {
+    const charityCut = productPrice / 4;
+    
+    return charityCut.toFixed(2);
+  }
+
   return (
     <div className="card px-1 py-1">
       <Link to={`/products/${_id}`}>
@@ -51,6 +57,7 @@ function ProductItem(item) {
       <div>
         <div>{quantity} {pluralize("item", quantity)} in stock</div>
         <span>${price}</span>
+        <span>(${getProceeds(price)} to charity)</span>
       </div>
       <button onClick={addToCart}>Add to cart</button>
     </div>
