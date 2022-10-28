@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { pluralize, idbPromise } from "../../../utils/helpers"
+import { pluralize, idbPromise, getProceeds } from "../../../utils/helpers"
 import { useStoreContext } from "../../../utils/shopping/GlobalState";
 import { ADD_TO_CART, UPDATE_CART_QUANTITY } from "../../../utils/shopping/actions";
 
@@ -38,12 +38,6 @@ function ProductItem(item) {
     }
   }
   // const rescueProduct = item.filter(item => item.category.name === "Rescues")
-
-  const getProceeds = (productPrice) => {
-    const charityCut = productPrice / 4;
-    
-    return charityCut.toFixed(2);
-  }
 
   return (
     <div className="card px-1 py-1">
