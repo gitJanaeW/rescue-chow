@@ -1,4 +1,4 @@
-const {Schema, model} = require('mongoose');
+const { Schema, model } = require('mongoose');
 
 const rescueSchema = new Schema(
     {
@@ -10,10 +10,15 @@ const rescueSchema = new Schema(
             type: String,
             required: false
         },
-        amountOwed: {
-            type: Number,
+        category: {
+            type: Schema.Types.ObjectId,
+            ref: 'Category',
             required: true
-        }
+        },
+        price: {
+            type: Number,
+            required: true,
+        },
     },
     {
         toJSON: {
@@ -22,7 +27,7 @@ const rescueSchema = new Schema(
     }
 );
 
-rescueSchema.virtual('supportersCount').get(function() {
+rescueSchema.virtual('supportersCount').get(function () {
     // if user (with or without an account) supports this rescue, +1
 });
 

@@ -1,6 +1,6 @@
 const db = require('./connections');
 const { User } = require('../models');
-const { Product, Category, Rescues } = require('../models');
+const { Product, Category } = require('../models');
 
 db.once('open', async () => {
   await Category.deleteMany();
@@ -8,7 +8,8 @@ db.once('open', async () => {
   const categories = await Category.insertMany([
     { name: 'Cat Treats' },
     { name: 'Dog Treats' },
-    { name: 'Uncategorized' }
+    { name: 'Uncategorized' },
+    { name: 'Rescues' }
   ]);
 
   console.log('categories seeded');
@@ -52,6 +53,54 @@ db.once('open', async () => {
       price: 9.99,
       quantity: 1
     },
+    {
+      name: "All Paws Matter",
+      website: "https://www.apmrescue.com/",
+      category: categories[3]._id,
+      price: 0
+
+    },
+    {
+      name: "Scugog Pet Food Bank",
+      website: "https://www.facebook.com/UxScPetFoodBank/",
+      category: categories[3]._id,
+      price: 0
+    },
+    {
+      name: "Rescue Chow Pet Food Bank Durham Region",
+      category: categories[3]._id,
+      price: 0
+    },
+    {
+      name: "Team Chelsea",
+      website: "https://www.facebook.com/groups/165123396868018",
+      category: categories[3]._id,
+      price: 0
+    },
+    {
+      name: "Durham Humane Society",
+      website: "http://www.hsdr.org/",
+      category: categories[3]._id,
+      price: 0
+    },
+    {
+      name: "Toronto Humane Society",
+      website: "https://www.torontohumanesociety.com/",
+      category: categories[3]._id,
+      price: 0
+    },
+    {
+      name: "Jack Russell Terrier Rescue Ontario",
+      website: "https://russellrescue.org/",
+      category: categories[3]._id,
+      price: 0
+    },
+    {
+      name: "Headwaters Pet Food Bank",
+      website: "https://www.facebook.com/Headwaters-Pet-Food-Bank-2503362129697849/",
+      category: categories[3]._id,
+      price: 0
+    },
   ]);
 
   console.log('products seeded');
@@ -79,47 +128,47 @@ db.once('open', async () => {
 
   console.log('users seeded');
 
-  const rescues = await Rescues.insertMany([
-    {
-      name: "All Paws Matter",
-      website: "https://www.apmrescue.com/",
-      amountOwed: 0
-    },
-    {
-      name: "Scugog Pet Food Bank",
-      website: "https://www.facebook.com/UxScPetFoodBank/",
-      amountOwed: 0
-    },
-    {
-      name: "Rescue Chow Pet Food Bank Durham Region",
-      amountOwed: 0
-    },
-    {
-      name: "Team Chelsea",
-      website: "https://www.facebook.com/groups/165123396868018",
-      amountOwed: 0
-    },
-    {
-      name: "Durham Humane Society",
-      website: "http://www.hsdr.org/",
-      amountOwed: 0
-    },
-    {
-      name: "Toronto Humane Society",
-      website: "https://www.torontohumanesociety.com/",
-      amountOwed: 0
-    },
-    {
-      name: "Jack Russell Terrier Rescue Ontario",
-      website: "https://russellrescue.org/",
-      amountOwed: 0
-    },
-    {
-      name: "Headwaters Pet Food Bank",
-      website: "https://www.facebook.com/Headwaters-Pet-Food-Bank-2503362129697849/",
-      amountOwed: 0
-    },
-  ]);
+  // const rescues = await Rescues.insertMany([
+  //   {
+  //     name: "All Paws Matter",
+  //     website: "https://www.apmrescue.com/",
+  //     amountOwed: 0
+  //   },
+  //   {
+  //     name: "Scugog Pet Food Bank",
+  //     website: "https://www.facebook.com/UxScPetFoodBank/",
+  //     amountOwed: 0
+  //   },
+  //   {
+  //     name: "Rescue Chow Pet Food Bank Durham Region",
+  //     amountOwed: 0
+  //   },
+  //   {
+  //     name: "Team Chelsea",
+  //     website: "https://www.facebook.com/groups/165123396868018",
+  //     amountOwed: 0
+  //   },
+  //   {
+  //     name: "Durham Humane Society",
+  //     website: "http://www.hsdr.org/",
+  //     amountOwed: 0
+  //   },
+  //   {
+  //     name: "Toronto Humane Society",
+  //     website: "https://www.torontohumanesociety.com/",
+  //     amountOwed: 0
+  //   },
+  //   {
+  //     name: "Jack Russell Terrier Rescue Ontario",
+  //     website: "https://russellrescue.org/",
+  //     amountOwed: 0
+  //   },
+  //   {
+  //     name: "Headwaters Pet Food Bank",
+  //     website: "https://www.facebook.com/Headwaters-Pet-Food-Bank-2503362129697849/",
+  //     amountOwed: 0
+  //   },
+  // ]);
 
   process.exit();
 });
