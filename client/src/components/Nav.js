@@ -4,12 +4,12 @@ import Img from "../assets/favicon.ico";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import dropdownImg from "../assets/icons8-double-down-50.png";
 
 const user = {
-  name: "Spencer Pichette",
-  email: "spencer@email.com",
-  imageUrl:
-    "https://scontent-lga3-1.xx.fbcdn.net/v/t31.18172-8/12419373_10154406216608154_2086362717598125675_o.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=s5RCnCURXukAX8UkE5B&_nc_ht=scontent-lga3-1.xx&oh=00_AT8Y5NuqQzrZtNpOmpu46L964waTek_r-AVlVCXm5xJ1pA&oe=637EA5A2",
+  name: "user",
+  email: "user@email.com",
+  imageUrl: { dropdownImg },
 };
 const navigation = [
   { name: "Home", href: "/", current: false },
@@ -104,11 +104,11 @@ export default function Nav() {
                       {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
                         <div>
-                          <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                          <Menu.Button className="flex max-w-xs items-center rounded-full bg-red-400 outline outline-3 outline-white text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                             <span className="sr-only">Open user menu</span>
                             <img
-                              className="h-8 w-8 rounded-full"
-                              src={user.imageUrl}
+                              className="h-8 w-8 rounded-full p-1 "
+                              src={dropdownImg}
                               alt=""
                             />
                           </Menu.Button>
