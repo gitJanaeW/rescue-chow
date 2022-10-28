@@ -37,23 +37,24 @@ function ProductItem(item) {
       idbPromise('cart', 'put', { ...item, purchaseQuantity: 1 });
     }
   }
+  // console.log(item)
   // const rescueProduct = item.filter(item => item.category.name === "Rescues")
 
   return (
     <div className="card px-1 py-1">
       <Link to={`/products/${_id}`}>
-        <img 
+        {price && <img
           width="200px"
           alt={name}
           src={`/images/shopping/${image}`}
-        />
+        />}
         <p>{name}</p>
       </Link>
       <div>
-        <div>{quantity} {pluralize("item", quantity)} in stock</div>
-        <span>${price}</span>
+        {quantity && <div>{quantity} {pluralize("item", quantity)} in stock</div>}
+        {price && <span>${price}</span>}
       </div>
-      <button onClick={addToCart}>Add to cart</button>
+      {price && <button onClick={addToCart}>Add to cart</button>}
 
       <div></div>
     </div>

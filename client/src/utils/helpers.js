@@ -1,12 +1,12 @@
 export function captializeFirstChar(phrase) {
-    const phraseArr = phrase.split('');
-    phraseArr.splice(0, 1, phrase[0].toUpperCase());
-    return phraseArr.join('');
-  }
-  
+  const phraseArr = phrase.split('');
+  phraseArr.splice(0, 1, phrase[0].toUpperCase());
+  return phraseArr.join('');
+}
+
 export function validateEmail(email) {
-    var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
+  var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
 }
 export function pluralize(name, count) {
   if (count === 1) {
@@ -19,23 +19,23 @@ export function idbPromise(storeName, method, object) {
   return new Promise((resolve, reject) => {
     const request = window.indexedDB.open('rescue-chow', 1);
     let db, tx, store;
-    request.onupgradeneeded = function(e) {
+    request.onupgradeneeded = function (e) {
       const db = request.result;
       db.createObjectStore('products', { keyPath: '_id' });
       db.createObjectStore('categories', { keyPath: '_id' });
       db.createObjectStore('cart', { keyPath: '_id' });
     };
 
-    request.onerror = function(e) {
+    request.onerror = function (e) {
       console.log('There was an error');
     };
 
-    request.onsuccess = function(e) {
+    request.onsuccess = function (e) {
       db = request.result;
       tx = db.transaction(storeName, 'readwrite');
       store = tx.objectStore(storeName);
 
-      db.onerror = function(e) {
+      db.onerror = function (e) {
         console.log('error', e);
       };
 
@@ -46,7 +46,7 @@ export function idbPromise(storeName, method, object) {
           break;
         case 'get':
           const all = store.getAll();
-          all.onsuccess = function() {
+          all.onsuccess = function () {
             resolve(all.result);
           };
           break;
@@ -58,7 +58,7 @@ export function idbPromise(storeName, method, object) {
           break;
       }
 
-      tx.oncomplete = function() {
+      tx.oncomplete = function () {
         db.close();
       };
     };
