@@ -70,6 +70,11 @@ const Cart = () => {
     );
   }
 
+  const onlyProceeds = () => {
+    const treatRemoved = calculateTotal() / 4;
+    return treatRemoved.toFixed(2);
+  }
+
   return (
     <div className="cart">
       <div className="close" onClick={toggleCart}>
@@ -83,8 +88,8 @@ const Cart = () => {
           ))}
 
           <div className="flex-row space-between">
-            <strong>Total: ${calculateTotal()}</strong>
-
+              <span>25% of this purchase (${onlyProceeds()}) is saving animals!</span>
+              <strong>Total: ${calculateTotal()}</strong>
             {Auth.loggedIn() ? (
               <button onClick={submitCheckout}>Checkout</button>
             ) : (
