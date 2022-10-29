@@ -93,7 +93,7 @@ function RescueForm() {
                 <h2>Our Rescues:</h2>
                 {state.products.length ? (
                     <div className="radio flex-row">
-                        {filterProducts().map((product, i) => (
+                        {filterProducts().map((product) => (
                             product.category.name === "Rescues"
                                 ? (
                                     <div>

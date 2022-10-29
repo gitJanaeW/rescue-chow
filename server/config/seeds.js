@@ -23,7 +23,7 @@ db.once('open', async () => {
         '1 calorie Liver Kitty Treats made in Canada with omega 3s and organic catnip, Kitty Kisses will earn you kitty kisses any day!',
       image: 'Kitty Kisses.png',
       category: categories[0]._id,
-      price: 9.99,
+      price: -9.99,
       quantity: 1
     },
     {
