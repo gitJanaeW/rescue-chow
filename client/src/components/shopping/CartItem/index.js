@@ -13,7 +13,6 @@ const CartItem = ({ item }) => {
       _id: item._id
     });
     idbPromise('cart', 'delete', { ...item });
-
   };
 
   const onChange = (e) => {
@@ -24,7 +23,6 @@ const CartItem = ({ item }) => {
         _id: item._id
       });
       idbPromise('cart', 'delete', { ...item });
-
     } else {
       dispatch({
         type: UPDATE_CART_QUANTITY,
@@ -36,18 +34,15 @@ const CartItem = ({ item }) => {
     }
   }
 
-  const withoutProceeds = (productPrice) => {
-    const proceedsRemoved = productPrice / 4 * 3;
-    return proceedsRemoved.toFixed(2);
-  };
-
   return (
-    item.image ? (<div className="flex-row">
+    <div className="flex-row">
       <div>
+      {item.image && (
         <img
           src={`/images/${item.image}`}
           alt=""
         />
+      )}
       </div>
       <div>
         <div>{item.name}, ${item.price}</div>
@@ -68,7 +63,7 @@ const CartItem = ({ item }) => {
           </span>
         </div>
       </div>
-    </div>) : null
+    </div>
   );
 }
 

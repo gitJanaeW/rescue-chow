@@ -14,7 +14,6 @@ const stripePromise = loadStripe('pk_test_51LwAJXFZoRYZwQnKvp7DSqLSz0HG4gAQJjH2J
 const Cart = () => {
   const [state, dispatch] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
-  console.log("CART", state.cart);
 
   useEffect(() => {
     if (data) {
@@ -47,13 +46,6 @@ const Cart = () => {
     return sum.toFixed(2);
   }
 
-  let cartTotal = calculateTotal();
-  let rescueTotal = cartTotal / 4 * 3;
-  let productsTotal = cartTotal / 4 * 1;
-  console.log("rescueTotal", rescueTotal)
-  console.log("productsTotal", productsTotal)
-
-
   function submitCheckout() {
     const productIds = [];
 
@@ -82,8 +74,6 @@ const Cart = () => {
     const treatRemoved = calculateTotal() / 4;
     return treatRemoved.toFixed(2);
   }
-
-
 
   return (
     <div className="cart">
