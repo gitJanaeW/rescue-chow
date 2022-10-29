@@ -29,6 +29,17 @@ export const ADD_ORDER = gql`
   }
 `;
 
+export const ADD_REVIEW = gql`
+  mutation addReview($reviewText: String!) {
+    addReview(reviewText: $reviewText) {
+      _id
+      reviewText
+      createdAt
+      firstName
+    }
+  }
+`;
+
 export const ADD_USER = gql`
   mutation addUser(
     $firstName: String!

@@ -7,7 +7,7 @@ const stripe = require('stripe')('sk_test_51LwAJXFZoRYZwQnKrB1KDnIQTimvYiaK2LxWe
 
 const resolvers = {
   Query: {
-  categories: async () => {
+    categories: async () => {
       return await Category.find();
     },
 
@@ -101,7 +101,8 @@ const resolvers = {
         const user = await User.findById(context.user._id).populate({
           path: 'orders.products',
           populate: 'category'
-        });
+        })
+          .populate('review');
 
         user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
 
@@ -121,7 +122,19 @@ const resolvers = {
       }
 
       throw new AuthenticationError('Not logged in');
+    },
+    reviews: async (parent, { firstName }) => {
+      const params = firstName ? { firstName } : {};
+      return Review.find(params).sort({ createdAt: -1 });
+    },
+    review: async (parent, { _id }) => {
+      return Review.findOne({ _id });
     }
+
+
+
+
+
   },
   Mutation: {
     addUser: async (parent, args) => {
@@ -170,7 +183,25 @@ const resolvers = {
       const token = signToken(user);
 
       return { token, user };
-    }
+    },
+    addReview: async (parent, args, context) => {
+      if (context.user) {
+        const review = await Review.create({ ...args, firstName: context.user.firstName });
+
+        await User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { $push: { reviews: review._id } },
+          { new: true }
+        );
+
+        return review;
+      }
+
+      throw new AuthenticationError('You need to be logged in!');
+    },
+
+
+
   }
 };
 

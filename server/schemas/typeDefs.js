@@ -28,7 +28,7 @@ const typeDefs = gql`
     lastName: String
     email: String
     orders: [Order]
-    review: [Review]
+    reviews: [Review]
   }
 
   type Review {

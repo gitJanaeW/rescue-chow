@@ -26,7 +26,7 @@ const userSchema = new Schema({
     minlength: 5
   },
   orders: [Orders.schema],
-  review: [
+  reviews: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Review'

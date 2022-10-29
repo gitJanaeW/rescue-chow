@@ -17,6 +17,31 @@ export const QUERY_PRODUCTS = gql`
   }
 `;
 
+export const QUERY_REVIEWS = gql`
+  query reviews($firstName: String) {
+    reviews(firstName: $firstName) {
+      _id
+      reviewText
+      createdAt
+      firstName
+    }
+  }
+`;
+
+export const QUERY_REVIEW = gql`
+  query review($id: ID!) {
+    review(_id: $id) {
+      _id
+      reviewText
+      createdAt
+      firstName
+    }
+  }
+`;
+
+
+
+
 export const QUERY_CHECKOUT = gql`
   query getCheckout($products: [ID]!) {
     checkout(products: $products) {
