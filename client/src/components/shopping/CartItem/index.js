@@ -4,7 +4,7 @@ import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from "../../../utils/shopping/
 import { idbPromise } from "../../../utils/helpers";
 
 const CartItem = ({ item }) => {
-
+  console.log("item", item);
   const [, dispatch] = useStoreContext();
 
   const removeFromCart = item => {
@@ -36,8 +36,13 @@ const CartItem = ({ item }) => {
     }
   }
 
+  const withoutProceeds = (productPrice) => {
+    const proceedsRemoved = productPrice / 4 * 3;
+    return proceedsRemoved.toFixed(2);
+  };
+
   return (
-    <div className="flex-row">
+    item.image ? (<div className="flex-row">
       <div>
         <img
           src={`/images/${item.image}`}
@@ -63,7 +68,7 @@ const CartItem = ({ item }) => {
           </span>
         </div>
       </div>
-    </div>
+    </div>) : null
   );
 }
 
