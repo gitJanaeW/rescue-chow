@@ -28,6 +28,14 @@ const typeDefs = gql`
     lastName: String
     email: String
     orders: [Order]
+    review: [Review]
+  }
+
+  type Review {
+    _id: ID
+    reviewText: String
+    createdAt: String
+    firstName: String
   }
 
   type Rescue {
@@ -57,6 +65,7 @@ const typeDefs = gql`
     addOrder(products: [ID]!): Order
     updateUser(firstName: String, lastName: String, email: String, password: String): User
     updateProduct(_id: ID!, quantity: Int!): Product
+    addReview(reviewText: String!): Review
     login(email: String!, password: String!): Auth
     addRescue(name: String!, website: String, amountOwed: Int!): Rescue
   }

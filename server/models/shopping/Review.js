@@ -1,12 +1,11 @@
 const { Schema, model } = require('mongoose');
-const reactionSchema = require('./Reaction');
-const dateFormat = require('../utils/dateFormat');
+const reviewSchema = require('./Review');
+const dateFormat = require('../utils/helpers');
 
 const reviewSchema = new Schema(
     {
         reviewText: {
             type: String,
-            required: 'You need to leave a thought!',
             minlength: 1,
             maxlength: 280
         },
