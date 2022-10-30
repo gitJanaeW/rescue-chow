@@ -1,6 +1,6 @@
 const db = require('./connections');
 const { User } = require('../models');
-const { Product, Category } = require('../models');
+const { Product, Category, Thought } = require('../models');
 
 db.once('open', async () => {
   await Category.deleteMany();
@@ -23,7 +23,7 @@ db.once('open', async () => {
         '1 calorie Liver Kitty Treats made in Canada with omega 3s and organic catnip, Kitty Kisses will earn you kitty kisses any day!',
       image: 'Kitty Kisses.png',
       category: categories[0]._id,
-      price: 9.99,
+      price: -9.99,
       quantity: 1
     },
     {
@@ -103,8 +103,16 @@ db.once('open', async () => {
     },
   ]);
 
-  console.log('products seeded');
+  const thoughts = await Thought.insertMany([
+    {
+      "thoughtText": "molestiae dicta voluptas ut iusto et hic nam",
+      "firstName": "Pamela",
+    },
+  ])
 
+  console.log('products seeded');
+  console.log('thoughts seeded');
+  console.log(thoughts);
   await User.deleteMany();
 
   await User.create({
@@ -116,7 +124,8 @@ db.once('open', async () => {
       {
         products: [products[0]._id, products[0]._id, products[1]._id]
       }
-    ]
+    ],
+    thoughts: [thoughts[0]]
   });
 
   await User.create({
@@ -169,6 +178,16 @@ db.once('open', async () => {
   //     amountOwed: 0
   //   },
   // ]);
+
+
+
+
+
+
+
+
+
+
 
   process.exit();
 });

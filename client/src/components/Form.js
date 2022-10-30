@@ -1,80 +1,16 @@
-// import React, { useState } from "react";
-// import ProductItem from "./shopping/ProductItem";
-// import ProductList from "./shopping/ProductList";
-// import { useStoreContext } from "../utils/shopping/GlobalState";
-
-// const RescueForm = () => {
-//     const [radio, setRadio] = useState("")
-//     const [state] = useStoreContext();
-
-//     const { currentCategory } = state;
-//     console.log(currentCategory)
-//     // const [isChecked, setIsChecked] = useState(false)
-//     //     constructor() {
-//     //         super();
-//     //         this.state = {
-//     //             name: "React"
-//     //         };
-//     //         this.onValueChange = this.onValueChange.bind(this);
-//     //         this.formSubmit = this.formSubmit.bind(this);
-//     //     }
-
-//     //     onValueChange(event) {
-//     //         this.setState({
-//     //             selectedOption: event.target.value
-//     //         });
-//     //     }
-
-//     //     formSubmit(event) {
-//     //         event.preventDefault();
-//     //         const selectedRescueObj = { selectedRescue: this.state.selectedOption }
-//     //         console.log(selectedRescueObj)
-//     //         // save to local storage
-//     //         localStorage.setItem("selectedRescue", selectedRescueObj);
-//     //         let newObject = localStorage.getItem("selectedRescue");
-//     //         console.log(JSON.parse(newObject));
-//     //     }
-//     //     const testArray = ["rescue1", "rescue2"
-//     // ]
-
-//     return (
-//         <form >
-//             <div className="radio">
-//                 <label>
-//                     <input
-//                         type="radio"
-//                         value="Rescue1"
-//                         checked={radio === "Rescue1"}
-//                         onChange={(e) => { setRadio(e.target.checked) }}
-//                     />
-//                     Rescue1
-//                     {/* <ProductItem></ProductItem> */}
-//                 </label>
-//             </div>
-
-//             <div>
-//                 Selected option is : {radio}
-//             </div>
-//             {/* upon button click, run function that saves chosen rescue to the users local storage */}
-//             <button className="btn btn-default" type="submit">
-//                 Proceed To Checkout
-//             </button>
-//         </form>
-//     );
-// }
-
-
-// export default RescueForm;
-// // onSubmit={this.formSubmit}
-
-import React, { useEffect } from 'react';
-import ProductItem from './shopping/ProductItem';
+import React, { useEffect, useState } from 'react';
 import { useStoreContext } from '../utils/shopping/GlobalState';
 import { UPDATE_PRODUCTS } from '../utils/shopping/actions';
 import { useQuery } from '@apollo/client';
-import { QUERY_PRODUCTS } from '../utils/shopping/queries';
+import { QUERY_PRODUCTS, QUERY_CHECKOUT } from '../utils/shopping/queries';
 import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
+import { useLazyQuery } from '@apollo/client';
+import { ADD_MULTIPLE_TO_CART } from '../utils/shopping/actions';
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe('pk_test_51LwAJXFZoRYZwQnKvp7DSqLSz0HG4gAQJjH2JTAIUXOdYLCwSSFX4M4o9j1Yjta226OxbCIrbfyrndJtLmGNyRWh00OtjMPGcA');
+
 
 function RescueForm() {
     const [state, dispatch] = useStoreContext();
@@ -82,14 +18,35 @@ function RescueForm() {
     const { currentCategory } = state;
 
     const { loading, data } = useQuery(QUERY_PRODUCTS);
+    const [radio, setRadio] = useState("None")
+    const [getCheckout, { checkoutData }] = useLazyQuery(QUERY_CHECKOUT);
 
     useEffect(() => {
         if (data) {
+            stripePromise.then((res) => {
+                res.redirectToCheckout({ sessionId: data.checkout.session });
+            });
+        }
+    }, [data]);
+
+    useEffect(() => {
+        async function getCart() {
+            const cart = await idbPromise('cart', 'get');
+            dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
+        }
+
+        if (!state.cart.length) {
+            getCart();
+        }
+    }, [state.cart.length, dispatch]);
+
+    useEffect(() => {
+        if (checkoutData) {
             dispatch({
                 type: UPDATE_PRODUCTS,
                 products: data.products,
             });
-            data.products.forEach((product) => {
+            checkoutData.products.forEach((product) => {
                 idbPromise('products', 'put', product);
             });
         } else if (!loading) {
@@ -100,54 +57,67 @@ function RescueForm() {
                 });
             });
         }
-    }, [data, loading, dispatch]);
+    }, [checkoutData, loading, dispatch]);
 
     function filterProducts() {
         if (!currentCategory) {
             return state.products;
         }
-
         return state.products.filter(
             (product) => product.category._id === currentCategory
         );
+    }
+
+    function submitCheckout(e) {
+        const productIds = [];
+
+        state.cart.forEach((item) => {
+            for (let i = 0; i < item.purchaseQuantity; i++) {
+                productIds.push(item._id);
+            }
+        });
+        e.preventDefault();
+        const selectedRescueObj = { selectedRescue: radio }
+        // save to local storage
+        localStorage.setItem("selectedRescue", JSON.stringify(selectedRescueObj));
+        let newObject = JSON.parse(localStorage.getItem("selectedRescue"));
+        console.log(newObject);
+        getCheckout({
+            variables: { products: productIds },
+        });
     }
 
     return (
         <form>
             <div className="my-2">
                 <h2>Our Rescues:</h2>
-
                 {state.products.length ? (
-                    <div className="flex-row">
-                        {filterProducts().map((product, i) => (
-                            <input
-                                type="radio"
-                                value={i}
-                            />
-                        ))}
+                    <div className="radio flex-row">
                         {filterProducts().map((product) => (
-                            product.category.name === "Rescues" ? (
-                                <ProductItem
-                                    key={product._id}
-                                    _id={product._id}
-                                    image={product.image}
-                                    name={product.name}
-                                    price={product.price}
-                                    quantity={product.quantity}
-                                />
-
-                            ) : null
-
-                        ))
-                        }
-
+                            product.category.name === "Rescues"
+                                ? (
+                                    <div>
+                                        <label>Rescue: {product.name}</label>
+                                        <p>Choose Your Rescue:</p>
+                                        <input
+                                            type="radio"
+                                            checked={radio === product.name}
+                                            value={product.name}
+                                            onChange={(e) => (setRadio(product.name))}
+                                        /></div>
+                                ) : null
+                        ))}
                     </div>
-
                 ) : (
                     <h3>You haven't Chosen a Rescue yet!</h3>
                 )}
                 {loading ? <img src={spinner} alt="loading" /> : null}
             </div>
+            Selected option is : {radio}
+            <br></br>
+            <button onClick={submitCheckout} className="btn btn-default" type="submit">
+                Proceed To Checkout
+            </button>
         </form >
     );
 }

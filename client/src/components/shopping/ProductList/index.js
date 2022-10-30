@@ -49,16 +49,19 @@ function ProductList() {
       {state.products.length ? (
         <div className="flex-row">
           {filterProducts().map((product) => (
-            product.category.name !== "Rescues" ? (
-              <ProductItem
-                key={product._id}
-                _id={product._id}
-                image={product.image}
-                name={product.name}
-                price={product.price}
-                quantity={product.quantity}
-              />
-            ) : null
+            console.log(product),
+            product.category.name !== "Rescues" ?
+
+              (
+                <ProductItem
+                  key={product._id}
+                  _id={product._id}
+                  image={product.image}
+                  name={product.name}
+                  price={product.price}
+                  quantity={product.quantity}
+                />
+              ) : null
           ))
           }
         </div>
