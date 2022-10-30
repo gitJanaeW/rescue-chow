@@ -11,8 +11,9 @@ import {
   UPDATE_PRODUCTS,
 } from '../../utils/shopping/actions';
 import { QUERY_PRODUCTS } from '../../utils/shopping/queries';
-import { idbPromise } from '../../utils/helpers';
+import { idbPromise, getProceeds } from '../../utils/helpers';
 import spinner from '../../assets/spinner.gif';
+import ThoughtForm from "../../components/ThoughtForm";
 
 function Detail() {
   const [state, dispatch] = useStoreContext();
@@ -93,6 +94,7 @@ function Detail() {
 
           <p>
             <strong>Price:</strong>${currentProduct.price}{' '}
+            <span>(${getProceeds(currentProduct.price)} to charity)</span>
             <button onClick={addToCart}>Add to Cart</button>
             <button
               disabled={!cart.find((p) => p._id === currentProduct._id)}
@@ -106,6 +108,7 @@ function Detail() {
             src={`/images/shopping/${currentProduct.image}`}
             alt={currentProduct.name}
           />
+          <ThoughtForm></ThoughtForm>
         </div>
       ) : null}
       {loading ? <img src={spinner} alt="loading" /> : null}

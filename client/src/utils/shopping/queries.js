@@ -11,10 +11,48 @@ export const QUERY_PRODUCTS = gql`
       image
       category {
         _id
+        name
       }
     }
   }
 `;
+export const QUERY_THOUGHTS = gql`
+  query thoughts($username: String) {
+    thoughts(username: $username) {
+      _id
+      thoughtText
+      createdAt
+      username
+      reactionCount
+      reactions {
+        _id
+        createdAt
+        username
+        reactionBody
+      }
+    }
+  }
+`;
+
+export const QUERY_THOUGHT = gql`
+  query thought($id: ID!) {
+    thought(_id: $id) {
+      _id
+      thoughtText
+      createdAt
+      username
+      reactionCount
+      reactions {
+        _id
+        createdAt
+        username
+        reactionBody
+      }
+    }
+  }
+`;
+
+
 
 export const QUERY_CHECKOUT = gql`
   query getCheckout($products: [LineItem]!) {
@@ -53,6 +91,14 @@ export const QUERY_USER = gql`
     user {
       firstName
       lastName
+      username
+      _id
+      thought {
+        _id
+        thoughtText
+        createdAt
+        username
+      }
       orders {
         _id
         purchaseDate
@@ -63,6 +109,41 @@ export const QUERY_USER = gql`
           price
           quantity
           image
+        }
+      }
+    }
+  }
+`;
+
+
+
+export const QUERY_RESCUES = gql`
+  {
+    rescues {
+      _id
+      name
+      website
+      amountOwed
+    }
+  }
+`;
+
+export const QUERY_ME = gql`
+  {
+    user {
+      _id
+      username
+      email
+      thoughts {
+        _id
+        thoughtText
+        createdAt
+        reactionCount
+        reactions {
+          _id
+          createdAt
+          reactionBody
+          username
         }
       }
     }

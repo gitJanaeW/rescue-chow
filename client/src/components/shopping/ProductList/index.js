@@ -49,15 +49,21 @@ function ProductList() {
       {state.products.length ? (
         <div className="flex-row">
           {filterProducts().map((product) => (
-            <ProductItem
-              key={product._id}
-              _id={product._id}
-              image={product.image}
-              name={product.name}
-              price={product.price}
-              quantity={product.quantity}
-            />
-          ))}
+            console.log(product),
+            product.category.name !== "Rescues" ?
+
+              (
+                <ProductItem
+                  key={product._id}
+                  _id={product._id}
+                  image={product.image}
+                  name={product.name}
+                  price={product.price}
+                  quantity={product.quantity}
+                />
+              ) : null
+          ))
+          }
         </div>
       ) : (
         <h3>You haven't added any products yet!</h3>
