@@ -1,33 +1,39 @@
 import React, { useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import Jumbotron from '../../components/shopping/Jumbotron';
-import { ADD_ORDER } from '../../utils/shopping/mutations';
+import { ADD_NEW_ORDER } from '../../utils/shopping/mutations';
 import { idbPromise } from '../../utils/helpers';
 
 function Success() {
-  const [addOrder] = useMutation(ADD_ORDER);
+  //const [addOrder] = useMutation(ADD_ORDER);
+  const [addNewOrder] = useMutation(ADD_NEW_ORDER);
 
   useEffect(() => {
     async function saveOrder() {
       const cart = await idbPromise('cart', 'get');
-      const products = cart.map((item) => item._id);
-
+      const products = [];
+      
+      cart.forEach(item => {
+        let newItem = {prodId: item._id, qnty: item.purchaseQuantity};
+        products.push(newItem);
+      })
       if (products.length) {
-        const { data } = await addOrder({ variables: { products } });
-        const productData = data.addOrder.products;
+        const { data } = await addNewOrder({ variables: { products} });
+        
+        const productData = data.addNewOrder.products;
 
         productData.forEach((item) => {
-          idbPromise('cart', 'delete', item);
+            idbPromise('cart', 'delete', item.prodId);             
         });
       }
 
       setTimeout(() => {
         window.location.assign('/');
-      }, 3000);
+      }, 300000);
     }
 
     saveOrder();
-  }, [addOrder]);
+  }, [addNewOrder]);
 
   return (
     <div>

@@ -1,5 +1,5 @@
 const {AuthenticationError} = require('apollo-server-express');
-const { User, Product, Category, Orders, Rescues } = require('../models');
+const { User, Product, Category, Orders, Rescues, ItemLine } = require('../models');
 // import models here
 const {signToken} = require('../utils/auth') ;
 //stripe sk secret key
@@ -10,35 +10,39 @@ const resolvers = {
     categories: async () => {
       return await Category.find();
     },
-    rescues: async () => {
-      return await Rescues.find();
-    },
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin; // https://localhost:3001 or new URL(context.headers.referer).origin;
-      const order = new Orders({ products: args.products });
-      const { products } = await order.populate('products');
+      
       const line_items = [];
+      const prodLines = [];
+      
+      for (let i = 0; i < args.products.length; i++) {
+        let newLine = new ItemLine(args.products[i]);
+        const {prodId} = await newLine.populate('prodId');
+        prodId.quantity = args.products[i].qnty;
+        prodLines.push(prodId);
+      };   
 
-      for (let i = 0; i < products.length; i++) {
+      for (let i = 0; i < prodLines.length; i++) {
         // generate product id
         const product = await stripe.products.create({
-          name: products[i].name,
-          description: products[i].description,
-          images: [`${url}/images/${products[i].image}`]
+          name: prodLines[i].name,
+          description: prodLines[i].description,
+          images: [`${url}/images/${prodLines[i].image}`]
         });
 
         // generate price id using the product id
         const price = await stripe.prices.create({
           product: product.id,
-          unit_amount: products[i].price * 100,
+          unit_amount: prodLines[i].price * 100,
           currency: 'usd',
-        });
-
+        });  
         // add price id to the line items array
         line_items.push({
           price: price.id,
-          quantity: 1
+          quantity: prodLines[i].quantity
         });
+        
       }
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
@@ -50,6 +54,7 @@ const resolvers = {
       
       return { session: session.id };
     },
+
     products: async (parent, { category, name }) => {
       const params = {};
 
@@ -69,10 +74,10 @@ const resolvers = {
       return await Product.findById(_id).populate('category');
     },
     user: async (parent, args, context) => {
-      if (context.user) {
-        const user = await User.findById(context.user._id).populate({
+      if (context.user) { //context.user
+        const user = await User.findById(context.user).populate({ //context.user
           path: 'orders.products',
-          populate: 'category'
+          populate: 'prodId'
         });
 
         user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
@@ -102,8 +107,21 @@ const resolvers = {
 
       return { token, user };
     },
+
+    addNewOrder: async (parent, {products}, context) => {
+      const productsArray = [];
+      products.forEach(item => {
+        const newLine = new ItemLine(item);
+        productsArray.push(newLine);
+      });
+      let order = new Orders();
+      order.products = productsArray;
+      // console.log(order.products);
+      await User.findByIdAndUpdate(context.user._id, { $push: { orders: order } });
+      return order;
+    },
+
     addOrder: async (parent, { products }, context) => {
-      console.log(context);
       if (context.user) {
         const order = new Orders({ products });
 

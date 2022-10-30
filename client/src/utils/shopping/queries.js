@@ -17,7 +17,7 @@ export const QUERY_PRODUCTS = gql`
 `;
 
 export const QUERY_CHECKOUT = gql`
-  query getCheckout($products: [ID]!) {
+  query getCheckout($products: [LineItem]!) {
     checkout(products: $products) {
       session
     }
@@ -65,17 +65,6 @@ export const QUERY_USER = gql`
           image
         }
       }
-    }
-  }
-`;
-
-export const QUERY_RESCUES = gql`
-  {
-    rescues {
-      _id
-      name
-      website
-      amountOwed
     }
   }
 `;
