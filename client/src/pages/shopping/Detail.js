@@ -13,6 +13,7 @@ import {
 import { QUERY_PRODUCTS } from '../../utils/shopping/queries';
 import { idbPromise } from '../../utils/helpers';
 import spinner from '../../assets/spinner.gif';
+import ThoughtForm from "../../components/ThoughtForm";
 
 function Detail() {
   const [state, dispatch] = useStoreContext();
@@ -106,6 +107,7 @@ function Detail() {
             src={`/images/shopping/${currentProduct.image}`}
             alt={currentProduct.name}
           />
+          <ThoughtForm></ThoughtForm>
         </div>
       ) : null}
       {loading ? <img src={spinner} alt="loading" /> : null}

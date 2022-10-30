@@ -16,29 +16,41 @@ export const QUERY_PRODUCTS = gql`
     }
   }
 `;
-
-export const QUERY_REVIEWS = gql`
-  query reviews($firstName: String) {
-    reviews(firstName: $firstName) {
+export const QUERY_THOUGHTS = gql`
+  query thoughts($username: String) {
+    thoughts(username: $username) {
       _id
-      reviewText
+      thoughtText
       createdAt
-      firstName
+      username
+      reactionCount
+      reactions {
+        _id
+        createdAt
+        username
+        reactionBody
+      }
     }
   }
 `;
 
-export const QUERY_REVIEW = gql`
-  query review($id: ID!) {
-    review(_id: $id) {
+export const QUERY_THOUGHT = gql`
+  query thought($id: ID!) {
+    thought(_id: $id) {
       _id
-      reviewText
+      thoughtText
       createdAt
-      firstName
+      username
+      reactionCount
+      reactions {
+        _id
+        createdAt
+        username
+        reactionBody
+      }
     }
   }
 `;
-
 
 
 
@@ -79,6 +91,14 @@ export const QUERY_USER = gql`
     user {
       firstName
       lastName
+      username
+      _id
+      thought {
+        _id
+        thoughtText
+        createdAt
+        username
+      }
       orders {
         _id
         purchaseDate
@@ -102,6 +122,28 @@ export const QUERY_RESCUES = gql`
       name
       website
       amountOwed
+    }
+  }
+`;
+
+export const QUERY_ME = gql`
+  {
+    user {
+      _id
+      username
+      email
+      thoughts {
+        _id
+        thoughtText
+        createdAt
+        reactionCount
+        reactions {
+          _id
+          createdAt
+          reactionBody
+          username
+        }
+      }
     }
   }
 `;

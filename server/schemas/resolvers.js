@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Product, Category, Orders, Rescues } = require('../models');
+const { User, Product, Category, Orders, Rescues, Thought } = require('../models');
 // import models here
 const { signToken } = require('../utils/auth');
 //stripe sk secret key
@@ -98,12 +98,12 @@ const resolvers = {
     },
     user: async (parent, args, context) => {
       if (context.user) {
-        const user = await User.findById(context.user._id).populate({
-          path: 'orders.products',
-          populate: 'category'
-        })
-          .populate('review');
-
+        const user = await User.findById(context.user._id)
+          .populate('thoughts')
+          .populate({
+            path: 'orders.products',
+            populate: 'category'
+          })
         user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
 
         return user;
@@ -123,19 +123,15 @@ const resolvers = {
 
       throw new AuthenticationError('Not logged in');
     },
-    reviews: async (parent, { firstName }) => {
-      const params = firstName ? { firstName } : {};
-      return Review.find(params).sort({ createdAt: -1 });
+    thoughts: async (parent, { username }) => {
+      const params = username ? { username } : {};
+      return Thought.find(params).sort({ createdAt: -1 });
     },
-    review: async (parent, { _id }) => {
-      return Review.findOne({ _id });
+    thought: async (parent, { _id }) => {
+      return Thought.findOne({ _id });
     }
-
-
-
-
-
   },
+
   Mutation: {
     addUser: async (parent, args) => {
       const user = await User.create(args);
@@ -184,17 +180,31 @@ const resolvers = {
 
       return { token, user };
     },
-    addReview: async (parent, args, context) => {
+
+    addThought: async (parent, args, context) => {
       if (context.user) {
-        const review = await Review.create({ ...args, firstName: context.user.firstName });
+        const thought = await Thought.create({ ...args, username: context.user.username });
 
         await User.findByIdAndUpdate(
           { _id: context.user._id },
-          { $push: { reviews: review._id } },
+          { $push: { thoughts: thought._id } },
           { new: true }
         );
 
-        return review;
+        return thought;
+      }
+
+      throw new AuthenticationError('You need to be logged in!');
+    },
+    addReaction: async (parent, { thoughtId, reactionBody }, context) => {
+      if (context.user) {
+        const updatedThought = await Thought.findOneAndUpdate(
+          { _id: thoughtId },
+          { $push: { reactions: { reactionBody, username: context.user.username } } },
+          { new: true, runValidators: true }
+        );
+
+        return updatedThought;
       }
 
       throw new AuthenticationError('You need to be logged in!');

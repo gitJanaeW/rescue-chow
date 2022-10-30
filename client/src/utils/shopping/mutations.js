@@ -29,27 +29,18 @@ export const ADD_ORDER = gql`
   }
 `;
 
-export const ADD_REVIEW = gql`
-  mutation addReview($reviewText: String!) {
-    addReview(reviewText: $reviewText) {
-      _id
-      reviewText
-      createdAt
-      firstName
-    }
-  }
-`;
-
 export const ADD_USER = gql`
   mutation addUser(
     $firstName: String!
     $lastName: String!
+    $username: String!
     $email: String!
     $password: String!
   ) {
     addUser(
       firstName: $firstName
       lastName: $lastName
+      username: $username
       email: $email
       password: $password
     ) {
@@ -60,3 +51,34 @@ export const ADD_USER = gql`
     }
   }
 `;
+
+export const ADD_THOUGHT = gql`
+  mutation addThought($thoughtText: String!) {
+    addThought(thoughtText: $thoughtText) {
+      _id
+      thoughtText
+      createdAt
+      username
+      reactionCount
+      reactions {
+        _id
+      }
+    }
+  }
+`;
+
+export const ADD_REACTION = gql`
+  mutation addReaction($thoughtId: ID!, $reactionBody: String!) {
+    addReaction(thoughtId: $thoughtId, reactionBody: $reactionBody) {
+      _id
+      reactionCount
+      reactions {
+        _id
+        reactionBody
+        createdAt
+        username
+      }
+    }
+  }
+`;
+
