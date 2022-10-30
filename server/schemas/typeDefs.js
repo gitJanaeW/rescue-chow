@@ -91,6 +91,7 @@ const typeDefs = gql`
   input CategoryInput {
     _id: ID
     name: String
+  }
 
   type Checkout {
     session: ID

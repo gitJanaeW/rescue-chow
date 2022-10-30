@@ -53,13 +53,6 @@ db.once('open', async () => {
       price: 9.99,
       quantity: 1
     },
-
-  ]);
-
-  console.log('products seeded');
-
-  const rescues = await Rescues.insertMany([
-
     {
       name: "All Paws Matter",
       website: "https://www.apmrescue.com/",
@@ -108,7 +101,11 @@ db.once('open', async () => {
       category: categories[3]._id,
       price: 0
     },
+
   ]);
+
+  console.log('products seeded');
+
 
   const thoughts = await Thought.insertMany([
     {
