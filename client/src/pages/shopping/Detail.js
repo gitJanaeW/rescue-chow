@@ -32,7 +32,7 @@ function Detail() {
       setCurrentProduct(products.find((product) => product._id === id));
       async function getThoughtAsync() {
         await getThought({ variables: { product: id } })
-        console.log({ thoughtData })
+        // console.log({ thoughtData })
       }
       getThoughtAsync();
     }

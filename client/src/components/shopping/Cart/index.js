@@ -50,10 +50,10 @@ const Cart = () => {
     const products = [];
 
     state.cart.forEach((item) => {
-      
-      const newLine = {prodId: item._id, qnty: item.purchaseQuantity};
+
+      const newLine = { prodId: item._id, qnty: item.purchaseQuantity };
       products.push(newLine);
-      
+
     });
 
     getCheckout({
@@ -76,10 +76,6 @@ const Cart = () => {
     return treatRemoved.toFixed(2);
   }
 
-
-  // const chosenRescue = JSON.parse(localStorage.getItem("selectedRescue"))
-  // console.log(chosenRescue);
-  console.log(state);
   return (
     <div className="cart">
       <div className="close" onClick={toggleCart}>

@@ -37,8 +37,6 @@ function ProductItem(item) {
       idbPromise('cart', 'put', { ...item, purchaseQuantity: 1 });
     }
   }
-  // console.log(item)
-  // const rescueProduct = item.filter(item => item.category.name === "Rescues")
 
   return (
     <div className="card px-1 py-1">

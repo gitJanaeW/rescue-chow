@@ -31,7 +31,6 @@ const ThoughtForm = () => {
                 data: { thoughts: [addThought, ...thoughts] },
 
             });
-            console.log('thoughts')
         }
 
     });
