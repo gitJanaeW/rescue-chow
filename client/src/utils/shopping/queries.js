@@ -16,9 +16,46 @@ export const QUERY_PRODUCTS = gql`
     }
   }
 `;
+export const QUERY_THOUGHTS = gql`
+  query thoughts($username: String) {
+    thoughts(username: $username) {
+      _id
+      thoughtText
+      createdAt
+      username
+      reactionCount
+      reactions {
+        _id
+        createdAt
+        username
+        reactionBody
+      }
+    }
+  }
+`;
+
+export const QUERY_THOUGHT = gql`
+  query thought($id: ID!) {
+    thought(_id: $id) {
+      _id
+      thoughtText
+      createdAt
+      username
+      reactionCount
+      reactions {
+        _id
+        createdAt
+        username
+        reactionBody
+      }
+    }
+  }
+`;
+
+
 
 export const QUERY_CHECKOUT = gql`
-  query getCheckout($products: [ID]!) {
+  query getCheckout($products: [LineItem]!) {
     checkout(products: $products) {
       session
     }
@@ -54,6 +91,14 @@ export const QUERY_USER = gql`
     user {
       firstName
       lastName
+      username
+      _id
+      thought {
+        _id
+        thoughtText
+        createdAt
+        username
+      }
       orders {
         _id
         purchaseDate
@@ -70,6 +115,8 @@ export const QUERY_USER = gql`
   }
 `;
 
+
+
 export const QUERY_RESCUES = gql`
   {
     rescues {
@@ -77,6 +124,28 @@ export const QUERY_RESCUES = gql`
       name
       website
       amountOwed
+    }
+  }
+`;
+
+export const QUERY_ME = gql`
+  {
+    user {
+      _id
+      username
+      email
+      thoughts {
+        _id
+        thoughtText
+        createdAt
+        reactionCount
+        reactions {
+          _id
+          createdAt
+          reactionBody
+          username
+        }
+      }
     }
   }
 `;

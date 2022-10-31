@@ -11,6 +11,30 @@ export const LOGIN = gql`
   }
 `;
 
+export const ADD_NEW_ORDER = gql`
+mutation AddNewOrder($products: [LineItem]) {
+  addNewOrder(products: $products) {
+    _id
+    purchaseDate
+    products {
+      prodId {
+        _id
+        name
+        description
+        image
+        quantity
+        price
+        category {
+          _id
+          name
+        }
+      }
+      qnty
+    }
+  }
+}
+`;
+
 export const ADD_ORDER = gql`
   mutation addOrder($products: [ID]!) {
     addOrder(products: $products) {
@@ -33,12 +57,14 @@ export const ADD_USER = gql`
   mutation addUser(
     $firstName: String!
     $lastName: String!
+    $username: String!
     $email: String!
     $password: String!
   ) {
     addUser(
       firstName: $firstName
       lastName: $lastName
+      username: $username
       email: $email
       password: $password
     ) {
@@ -49,3 +75,34 @@ export const ADD_USER = gql`
     }
   }
 `;
+
+export const ADD_THOUGHT = gql`
+  mutation addThought($thoughtText: String!) {
+    addThought(thoughtText: $thoughtText) {
+      _id
+      thoughtText
+      createdAt
+      username
+      reactionCount
+      reactions {
+        _id
+      }
+    }
+  }
+`;
+
+export const ADD_REACTION = gql`
+  mutation addReaction($thoughtId: ID!, $reactionBody: String!) {
+    addReaction(thoughtId: $thoughtId, reactionBody: $reactionBody) {
+      _id
+      reactionCount
+      reactions {
+        _id
+        reactionBody
+        createdAt
+        username
+      }
+    }
+  }
+`;
+

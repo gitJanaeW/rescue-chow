@@ -1,5 +1,9 @@
-const { AuthenticationError } = require('apollo-server-express');
-const { User, Product, Category, Orders, Rescues } = require('../models');
+
+const {AuthenticationError} = require('apollo-server-express');
+const { User, Product, Category, Orders, Rescues, ItemLine, Thought} = require('../models');
+
+
+
 // import models here
 const { signToken } = require('../utils/auth');
 //stripe sk secret key
@@ -7,44 +11,47 @@ const stripe = require('stripe')('sk_test_51LwAJXFZoRYZwQnKrB1KDnIQTimvYiaK2LxWe
 
 const resolvers = {
   Query: {
-  categories: async () => {
+    categories: async () => {
       return await Category.find();
-    },
-
-    rescues: async () => {
-      return await Rescues.find();
     },
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin; // https://localhost:3001 or new URL(context.headers.referer).origin;
-      const order = new Orders({ products: args.products });
-      const { products } = await order.populate('products');
+      
       const line_items = [];
+      const prodLines = [];
+      
+      for (let i = 0; i < args.products.length; i++) {
+        let newLine = new ItemLine(args.products[i]);
+        const {prodId} = await newLine.populate('prodId');
+        prodId.quantity = args.products[i].qnty;
+        prodLines.push(prodId);
+      };   
 
-      for (let i = 0; i < products.length; i++) {
+      for (let i = 0; i < prodLines.length; i++) {
         // generate product id
         const product = await stripe.products.create({
-          name: products[i].name,
-          description: products[i].description,
-          images: [`${url}/images/${products[i].image}`]
+          name: prodLines[i].name,
+          description: prodLines[i].description,
+          images: [`${url}/images/${prodLines[i].image}`]
         });
 
         // generate price id using the product id
         const price = await stripe.prices.create({
           product: product.id,
-          unit_amount: products[i].price * 100,
-          currency: 'usd',
-        });
-
+          unit_amount: prodLines[i].price * 100,
+          currency: 'cad',
+        });  
         // add price id to the line items array
         line_items.push({
           price: price.id,
-          quantity: 1
+          quantity: prodLines[i].quantity
         });
+        
       }
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         shipping_address_collection: {
-          allowed_countries: ['US', 'CA'],
+          allowed_countries: ['CA'],
         },
         shipping_options: [
           {
@@ -52,7 +59,7 @@ const resolvers = {
               type: 'fixed_amount',
               fixed_amount: {
                 amount: 0,
-                currency: 'usd',
+                currency: 'cad',
               },
               display_name: 'Free shipping',
               // Delivers between 5-7 business days
@@ -67,14 +74,15 @@ const resolvers = {
                 },
               }
             }
-          },
+          },          
         ],
+        
         line_items,
         mode: 'payment',
         success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${url}/`
       });
-
+      
       return { session: session.id };
     },
 
@@ -97,19 +105,29 @@ const resolvers = {
       return await Product.findById(_id).populate('category');
     },
     user: async (parent, args, context) => {
-      if (context.user) {
-        const user = await User.findById(context.user._id).populate({
+      if (context.user) { //context.user
+        const user = await User.findById(context.user).populate({ //context.user
           path: 'orders.products',
-          populate: 'category'
+          populate: 'prodId'
         });
 
-        user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
-
-        return user;
-      }
+        if (context.user) {
+          const user = await User.findById(context.user._id)
+            .populate('thoughts')
+            .populate({
+              path: 'orders.products',
+              populate: 'category'
+            });
+  
+          user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
+  
+          return user;
+        }
 
       throw new AuthenticationError('Not logged in');
+      }
     },
+
     order: async (parent, { _id }, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id).populate({
@@ -119,8 +137,16 @@ const resolvers = {
 
         return user.orders.id(_id);
       }
-
+    
       throw new AuthenticationError('Not logged in');
+    },
+
+    thoughts: async (parent, { username }) => {
+      const params = username ? { username } : {};
+      return Thought.find(params).sort({ createdAt: -1 });
+    },
+    thought: async (parent, { _id }) => {
+      return Thought.findOne({ _id });
     }
   },
   Mutation: {
@@ -130,8 +156,20 @@ const resolvers = {
 
       return { token, user };
     },
+
+    addNewOrder: async (parent, {products}, context) => {
+      const productsArray = [];
+      products.forEach(item => {
+        const newLine = new ItemLine(item);
+        productsArray.push(newLine);
+      });
+      let order = new Orders();
+      order.products = productsArray;
+      await User.findByIdAndUpdate(context.user._id, { $push: { orders: order } });
+      return order;
+    },
+
     addOrder: async (parent, { products }, context) => {
-      console.log(context);
       if (context.user) {
         const order = new Orders({ products });
 
@@ -141,6 +179,9 @@ const resolvers = {
       }
 
       throw new AuthenticationError('Not logged in');
+    },
+    addRescue: async (parent, args) => {
+      return await Rescues.create(args);
     },
     updateUser: async (parent, args, context) => {
       if (context.user) {
@@ -170,8 +211,37 @@ const resolvers = {
       const token = signToken(user);
 
       return { token, user };
-    }
+    },
+    addThought: async (parent, args, context) => {
+      if (context.user) {
+        const thought = await Thought.create({ ...args, username: context.user.username });
+
+        await User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { $push: { thoughts: thought._id } },
+          { new: true }
+        );
+
+        return thought;
+      }
+
+      throw new AuthenticationError('You need to be logged in!');
+    },
+    addReaction: async (parent, { thoughtId, reactionBody }, context) => {
+      if (context.user) {
+        const updatedThought = await Thought.findOneAndUpdate(
+          { _id: thoughtId },
+          { $push: { reactions: { reactionBody, username: context.user.username } } },
+          { new: true, runValidators: true }
+        );
+
+        return updatedThought;
+      }
+
+      throw new AuthenticationError('You need to be logged in!');
+    },
   }
 };
-
+      
 module.exports = resolvers;
+
