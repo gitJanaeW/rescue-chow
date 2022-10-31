@@ -9,6 +9,12 @@ export const QUERY_PRODUCTS = gql`
       price
       quantity
       image
+      thoughts {
+        _id
+        thoughtText
+        createdAt
+        username
+      }
       category {
         _id
         name
@@ -24,6 +30,9 @@ export const QUERY_THOUGHTS = gql`
       createdAt
       username
       reactionCount
+      products {
+        _id
+      }
       reactions {
         _id
         createdAt

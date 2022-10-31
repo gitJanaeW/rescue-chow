@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
+import { useLazyQuery, useQuery } from '@apollo/client';
 
 import Cart from '../../components/shopping/Cart';
 import { useStoreContext } from '../../utils/shopping/GlobalState';
@@ -10,7 +10,7 @@ import {
   ADD_TO_CART,
   UPDATE_PRODUCTS,
 } from '../../utils/shopping/actions';
-import { QUERY_PRODUCTS } from '../../utils/shopping/queries';
+import { QUERY_PRODUCTS, QUERY_THOUGHTS } from '../../utils/shopping/queries';
 import { idbPromise, getProceeds } from '../../utils/helpers';
 import spinner from '../../assets/spinner.gif';
 import ThoughtForm from "../../components/ThoughtForm";
@@ -22,14 +22,21 @@ function Detail() {
   const [currentProduct, setCurrentProduct] = useState({});
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
-
+  const [getThought, thoughtData] = useLazyQuery(QUERY_THOUGHTS);
+  console.log(data);
   const { products, cart } = state;
 
   useEffect(() => {
     // already in global store
     if (products.length) {
       setCurrentProduct(products.find((product) => product._id === id));
+      async function getThoughtAsync() {
+        await getThought({ variables: { product: id } })
+        console.log({ thoughtData })
+      }
+      getThoughtAsync();
     }
+
     // retrieved from server
     else if (data) {
       dispatch({
