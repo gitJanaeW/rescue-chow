@@ -43,7 +43,7 @@ function ProductList() {
   }
 
   return (
-    <div className="bg-white">
+    <div className=" bg-opacity-20 from-red-200 to-white bg-gradient-to-t">
       <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
         <h2 className="text-xl font-bold text-gray-900">All Products</h2>
 
