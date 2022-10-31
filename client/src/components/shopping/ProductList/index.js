@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
-import ProductItem from '../ProductItem';
-import { useStoreContext } from '../../../utils/shopping/GlobalState';
-import { UPDATE_PRODUCTS } from '../../../utils/shopping/actions';
-import { useQuery } from '@apollo/client';
-import { QUERY_PRODUCTS } from '../../../utils/shopping/queries';
-import { idbPromise } from '../../../utils/helpers';
-import spinner from '../../../assets/spinner.gif';
+import React, { useEffect } from "react";
+import ProductItem from "../ProductItem";
+import { useStoreContext } from "../../../utils/shopping/GlobalState";
+import { UPDATE_PRODUCTS } from "../../../utils/shopping/actions";
+import { useQuery } from "@apollo/client";
+import { QUERY_PRODUCTS } from "../../../utils/shopping/queries";
+import { idbPromise } from "../../../utils/helpers";
 
 function ProductList() {
   const [state, dispatch] = useStoreContext();
@@ -21,10 +20,10 @@ function ProductList() {
         products: data.products,
       });
       data.products.forEach((product) => {
-        idbPromise('products', 'put', product);
+        idbPromise("products", "put", product);
       });
     } else if (!loading) {
-      idbPromise('products', 'get').then((products) => {
+      idbPromise("products", "get").then((products) => {
         dispatch({
           type: UPDATE_PRODUCTS,
           products: products,
@@ -44,31 +43,25 @@ function ProductList() {
   }
 
   return (
-    <div className="my-2">
-      <h2>Our Products:</h2>
-      {state.products.length ? (
-        <div className="flex-row">
-          {filterProducts().map((product) => (
+    <div className="bg-white">
+      <div className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+        <h2 className="text-xl font-bold text-gray-900">All Products</h2>
 
-            product.category.name !== "Rescues" ?
-
-              (
-                <ProductItem
-                  key={product._id}
-                  _id={product._id}
-                  image={product.image}
-                  name={product.name}
-                  price={product.price}
-                  quantity={product.quantity}
-                />
-              ) : null
-          ))
-          }
+        <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+          {filterProducts().map((product) =>
+            product.category.name !== "Rescues" ? (
+              <ProductItem
+                key={product._id}
+                _id={product._id}
+                image={product.image}
+                name={product.name}
+                price={product.price}
+                quantity={product.quantity}
+              />
+            ) : null
+          )}
         </div>
-      ) : (
-        <h3>You haven't added any products yet!</h3>
-      )}
-      {loading ? <img src={spinner} alt="loading" /> : null}
+      </div>
     </div>
   );
 }

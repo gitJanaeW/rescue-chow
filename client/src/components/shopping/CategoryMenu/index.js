@@ -42,55 +42,16 @@ function CategoryMenu() {
     });
   };
 
-  // return (
-  //   <div>
-  //     <h2>Choose a Category:</h2>
-  //     {categories.map((item) => (
-  //       <button
-  //         key={item._id}
-  //         onClick={() => {
-  //           handleClick(item._id);
-  //         }}
-  //       >
-  //         {item.name}
-  //       </button>
-  //     ))}
-  //   </div>
-  // );
-  // const categories = [
-  //   {
-  //     name: 'New Arrivals',
-  //     href: '#',
-  //     imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-01.jpg',
-  //   },
-  //   {
-  //     name: 'Productivity',
-  //     href: '#',
-  //     imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-02.jpg',
-  //   },
-  //   {
-  //     name: 'Workspace',
-  //     href: '#',
-  //     imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-04.jpg',
-  //   },
-  //   {
-  //     name: 'Accessories',
-  //     href: '#',
-  //     imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-05.jpg',
-  //   },
-  //   { name: 'Sale', href: '#', imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-03.jpg' },
-  // ]
-
   return (
     <div className="bg-white">
-      <div className="py-16 sm:py-24 xl:mx-auto xl:max-w-7xl xl:px-8">
+      <div className="py-10 sm:py-10 xl:mx-auto xl:max-w-7xl xl:px-8">
         <div className="px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8 xl:px-0">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">
             Shop by Category
           </h2>
           <a
-            href="#"
-            className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block"
+            href=""
+            className="hidden text-sm font-semibold text-red-400 hover:text-black sm:block"
           >
             Browse all categories
             <span aria-hidden="true"> &rarr;</span>
@@ -104,7 +65,7 @@ function CategoryMenu() {
                 {categories.map((category) => (
                   <a
                     key={category._id}
-                    href=""
+                    href="#"
                     onClick={() => {
                       handleClick(category._id);
                     }}
@@ -113,7 +74,7 @@ function CategoryMenu() {
                     <span aria-hidden="true" className="absolute inset-0">
                       <img
                         src={placeholder}
-                        alt=""
+                        alt="#"
                         className="h-full w-full object-cover object-center"
                       />
                     </span>
@@ -133,7 +94,7 @@ function CategoryMenu() {
 
         <div className="mt-6 px-4 sm:hidden">
           <a
-            href="#"
+            href=""
             className="block text-sm font-semibold text-indigo-600 hover:text-indigo-500"
           >
             Browse all categories
