@@ -24,7 +24,7 @@ db.once('open', async () => {
       image: 'Kitty Kisses.png',
       category: categories[0]._id,
       price: -9.99,
-      quantity: 1
+      quantity: 1,
     },
     {
       name: 'Beef Chews 100g',
@@ -109,19 +109,21 @@ db.once('open', async () => {
 
   const thoughts = await Thought.insertMany([
     {
-      "thoughtText": "molestiae dicta voluptas ut iusto et hic nam",
-      "firstName": "Pamela",
+      "thoughtText": "i fucking LOVE kitty kisses!!!",
+      "username": "Pamela",
+      product: products[0]._id
     },
   ])
 
   console.log('products seeded');
   console.log('thoughts seeded');
-  console.log(thoughts);
+  console.log({ thoughts });
   await User.deleteMany();
 
   await User.create({
     firstName: 'Pamela',
     lastName: 'Washington',
+    username: 'Pamela',
     email: 'pamela@testmail.com',
     password: 'password12345',
     orders: [
@@ -135,6 +137,7 @@ db.once('open', async () => {
   await User.create({
     firstName: 'Elijah',
     lastName: 'Holt',
+    username: 'Ej',
     email: 'eholt@testmail.com',
     password: 'password12345'
   });

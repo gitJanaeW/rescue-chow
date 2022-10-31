@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { useMutation } from '@apollo/client';
 import { ADD_THOUGHT } from '../../utils/shopping/mutations';
-import { QUERY_THOUGHTS, QUERY_ME } from '../../utils/shopping/queries';
+import { QUERY_ME, QUERY_THOUGHTS } from '../../utils/shopping/queries';
 
 const ThoughtForm = () => {
     const [thoughtText, setText] = useState('');
@@ -18,6 +18,7 @@ const ThoughtForm = () => {
                 cache.writeQuery({
                     query: QUERY_ME,
                     data: { me: { ...me, thoughts: [...me.thoughts, addThought] } },
+
                 });
             } catch (e) {
                 console.warn("First thought insertion by user!")
@@ -28,8 +29,11 @@ const ThoughtForm = () => {
             cache.writeQuery({
                 query: QUERY_THOUGHTS,
                 data: { thoughts: [addThought, ...thoughts] },
+
             });
+            console.log('thoughts')
         }
+
     });
 
     // update state based on form input changes
@@ -47,8 +51,8 @@ const ThoughtForm = () => {
         try {
             await addThought({
                 variables: { thoughtText },
-            });
 
+            });
             // clear form value
             setText('');
             setCharacterCount(0);

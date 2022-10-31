@@ -6,7 +6,7 @@ import { QUERY_PRODUCTS, QUERY_CHECKOUT } from '../utils/shopping/queries';
 import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
 import { useLazyQuery } from '@apollo/client';
-import { ADD_MULTIPLE_TO_CART } from '../utils/shopping/actions';
+import { ADD_MULTIPLE_TO_CART, ADD_RESCUE_CHECKOUT } from '../utils/shopping/actions';
 import { loadStripe } from '@stripe/stripe-js';
 
 const stripePromise = loadStripe('pk_test_51LwAJXFZoRYZwQnKvp7DSqLSz0HG4gAQJjH2JTAIUXOdYLCwSSFX4M4o9j1Yjta226OxbCIrbfyrndJtLmGNyRWh00OtjMPGcA');
@@ -69,19 +69,23 @@ function RescueForm() {
     }
 
     function submitCheckout(e) {
+        e.preventDefault();
         const productIds = [];
-
+        dispatch({
+            type: ADD_RESCUE_CHECKOUT,
+            selectedRescueValue: radio,
+        });
         state.cart.forEach((item) => {
             for (let i = 0; i < item.purchaseQuantity; i++) {
                 productIds.push(item._id);
             }
         });
-        e.preventDefault();
-        const selectedRescueObj = { selectedRescue: radio }
+
+        // const selectedRescueObj = { selectedRescue: radio }
         // save to local storage
-        localStorage.setItem("selectedRescue", JSON.stringify(selectedRescueObj));
-        let newObject = JSON.parse(localStorage.getItem("selectedRescue"));
-        console.log(newObject);
+        //     localStorage.setItem("selectedRescue", JSON.stringify(selectedRescueObj));
+        //    JSON.parse(localStorage.getItem("selectedRescue"));
+
         getCheckout({
             variables: { products: productIds },
         });

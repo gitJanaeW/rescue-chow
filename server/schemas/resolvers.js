@@ -86,7 +86,7 @@ const resolvers = {
       return { session: session.id };
     },
 
-    products: async (parent, { category, name }) => {
+    products: async (parent, { category, name, thoughts }) => {
       const params = {};
 
       if (category) {
@@ -98,11 +98,35 @@ const resolvers = {
           $regex: name
         };
       }
+      if (thoughts) {
+        params.thoughts = thoughts
+      }
 
-      return await Product.find(params).populate('category');
+      return await Product.find(params)
+        .populate('category')
+        .populate('thoughts');
+
     },
     product: async (parent, { _id }) => {
-      return await Product.findById(_id).populate('category');
+      return await Product.findById(_id)
+        .populate('category')
+        .populate('thoughts');
+    },
+    thoughts: async (parent, { username, product }) => {
+      const params = {};
+      if (username) {
+        params.username = username;
+      }
+
+      if (product) {
+        params.product = product;
+
+      }
+      console.log("hi")
+      return Thought.find(params).sort({ createdAt: -1 });
+    },
+    thought: async (parent, { _id }) => {
+      return Thought.findOne({ _id });
     },
     user: async (parent, args, context) => {
       if (context.user) { //context.user
@@ -148,6 +172,7 @@ const resolvers = {
     thought: async (parent, { _id }) => {
       return Thought.findOne({ _id });
     }
+
   },
   Mutation: {
     addUser: async (parent, args) => {

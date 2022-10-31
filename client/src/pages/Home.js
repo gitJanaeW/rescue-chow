@@ -4,6 +4,8 @@ import petsAbout from "../assets/pets-about-free-img.png";
 import chooseRescueImg from "../assets/pet-with-girl-free-img.png";
 
 const Home = () => {
+
+
   return (
     <div className="bg-hero-pattern bg-cover bg-fixed ">
       <header className="bg-header-pattern bg-center pb-20 md:pb-64 contrast-75 ">

@@ -49,7 +49,7 @@ function ProductList() {
       {state.products.length ? (
         <div className="flex-row">
           {filterProducts().map((product) => (
-            console.log(product),
+
             product.category.name !== "Rescues" ?
 
               (
