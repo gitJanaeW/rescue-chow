@@ -87,13 +87,13 @@ export const QUERY_CATEGORIES = gql`
 `;
 
 export const QUERY_USER = gql`
-  {
-    user {
+query user($username: String!) {
+    user(username: $username)  {
       firstName
       lastName
       username
       _id
-      thought {
+      thoughts {
         _id
         thoughtText
         createdAt
@@ -128,7 +128,7 @@ export const QUERY_RESCUES = gql`
 
 export const QUERY_ME = gql`
   {
-    user {
+    me {
       _id
       username
       email
@@ -144,6 +144,15 @@ export const QUERY_ME = gql`
           username
         }
       }
+    }
+  }
+`;
+export const QUERY_ME_BASIC = gql`
+  {
+    me {
+      _id
+      username
+      email
     }
   }
 `;
