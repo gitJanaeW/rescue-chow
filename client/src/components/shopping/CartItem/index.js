@@ -4,7 +4,6 @@ import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from "../../../utils/shopping/
 import { idbPromise } from "../../../utils/helpers";
 
 const CartItem = ({ item }) => {
-  console.log("item", item);
   const [, dispatch] = useStoreContext();
 
   const removeFromCart = item => {

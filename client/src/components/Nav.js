@@ -5,6 +5,7 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import dropdownImg from "../assets/icons8-double-down-50.png";
+import { idbPromise } from '../utils/helpers';
 
 const user = {
   name: "user",
@@ -22,6 +23,25 @@ const navigation = [
 let userNavigation = [];
 
 function Logout() {
+  async function clearCart() {
+    const cart = await idbPromise('cart', 'get');
+    // console.log(cart);
+    // const products = cart.map((product) => product._id);
+    // console.log("products", products);
+    // const quantity = cart.map((product) => product.qty);
+    // console.log("quantity", quantity);
+    if (cart.length) {
+      cart.forEach((item) => {
+        idbPromise('cart', 'delete', item);
+      });
+    }
+
+    // setTimeout(() => {
+    //   window.location.assign('/');
+    // }, 3000);
+  }
+  
+  clearCart();
   Auth.logout();
 }
 
