@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const ItemLine = require('./ItemLine');
 
 const { Schema } = mongoose;
 
@@ -7,12 +8,7 @@ const orderSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  products: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Product'
-    }
-  ]
+  products: [ItemLine.schema]
 });
 
 const Orders = mongoose.model('Orders', orderSchema);

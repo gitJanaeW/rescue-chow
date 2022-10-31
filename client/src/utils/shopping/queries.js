@@ -64,7 +64,7 @@ export const QUERY_THOUGHT = gql`
 
 
 export const QUERY_CHECKOUT = gql`
-  query getCheckout($products: [ID]!) {
+  query getCheckout($products: [LineItem]!) {
     checkout(products: $products) {
       session
     }
@@ -124,6 +124,8 @@ query user($username: String!) {
   }
 `;
 
+
+
 export const QUERY_RESCUES = gql`
   {
     rescues {
@@ -156,6 +158,7 @@ export const QUERY_ME = gql`
     }
   }
 `;
+
 export const QUERY_ME_BASIC = gql`
   {
     me {
@@ -165,3 +168,4 @@ export const QUERY_ME_BASIC = gql`
     }
   }
 `;
+

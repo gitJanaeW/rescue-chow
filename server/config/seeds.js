@@ -101,7 +101,11 @@ db.once('open', async () => {
       category: categories[3]._id,
       price: 0
     },
+
   ]);
+
+  console.log('products seeded');
+
 
   const thoughts = await Thought.insertMany([
     {

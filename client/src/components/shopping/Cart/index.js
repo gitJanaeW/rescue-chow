@@ -47,16 +47,17 @@ const Cart = () => {
   }
 
   function submitCheckout() {
-    const productIds = [];
+    const products = [];
 
     state.cart.forEach((item) => {
-      for (let i = 0; i < item.purchaseQuantity; i++) {
-        productIds.push(item._id);
-      }
+      
+      const newLine = {prodId: item._id, qnty: item.purchaseQuantity};
+      products.push(newLine);
+      
     });
 
     getCheckout({
-      variables: { products: productIds },
+      variables: { products: products },
     });
   }
 
