@@ -38,8 +38,6 @@ const typeDefs = gql`
     thoughtText: String
     createdAt: String
     username: String
-    reactionCount: Int
-    reactions: [Reaction]
   }
 
   type Rescue {
@@ -47,13 +45,6 @@ const typeDefs = gql`
     name: String
     website: String
     amountOwed: Int
-  }
-
-  type Reaction {
-    _id: ID
-    reactionBody: String
-    createdAt: String
-    username: String
   }
 
 
@@ -117,7 +108,7 @@ const typeDefs = gql`
     addOrder(products: [ID]!): Order
     updateUser(firstName: String, lastName: String, username: String, email: String, password: String): User
     updateProduct(_id: ID!, quantity: Int!): Product
-    addThought(product: ID!, thoughtText: String!): Product
+    addThought(product: ID, thoughtText: String!): Product
     login(email: String!, password: String!): Auth
     addRescue(name: String!, website: String, amountOwed: Int!): Rescue
   }

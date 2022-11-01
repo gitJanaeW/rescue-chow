@@ -2,12 +2,35 @@ import React, { useState } from 'react';
 
 import { useMutation } from '@apollo/client';
 import { ADD_THOUGHT } from '../../utils/shopping/mutations';
+import { QUERY_PRODUCTS } from '../../utils/shopping/queries';
 
-const ThoughtForm = (value) => {
+const ThoughtForm = ({ product }) => {
     const [thoughtText, setBody] = useState('');
     const [characterCount, setCharacterCount] = useState(0);
-    const [addThought, { error }] = useMutation(ADD_THOUGHT);
-    console.log(value)
+    const [addThought, { error }] = useMutation(ADD_THOUGHT, {
+        update(cache, { data: { addThought } }) {
+
+            // could potentially not exist yet, so wrap in a try/catch
+            try {
+                // update me array's cache
+                const { products } = cache.readQuery({ query: QUERY_PRODUCTS });
+                cache.writeQuery({
+                    query: QUERY_PRODUCTS,
+                    data: { thoughts: [...products.thoughts, addThought] },
+                });
+            } catch (e) {
+                console.warn("First thought insertion by user!")
+            }
+
+            // update thought array's cache
+            const { products } = cache.readQuery({ query: QUERY_PRODUCTS });
+            cache.writeQuery({
+                query: QUERY_PRODUCTS,
+                data: { thoughts: [addThought, { products }] },
+            });
+        }
+    });
+
     // update state based on form input changes
     const handleChange = (event) => {
         if (event.target.value.length <= 280) {
@@ -19,18 +42,19 @@ const ThoughtForm = (value) => {
     // submit form
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-
         try {
             await addThought({
-                variables: { thoughtText },
-            });
+                variables: { thoughtText: thoughtText },
 
+            });
+            // console.log(addThought())
             // clear form value
             setBody('');
             setCharacterCount(0);
         } catch (e) {
             console.error(e);
         }
+        // console.log(thoughtText)
     };
 
     return (
@@ -48,6 +72,7 @@ const ThoughtForm = (value) => {
                 <textarea
                     placeholder="Leave a review..."
                     value={thoughtText}
+                    name="thoughtText"
                     className="form-input col-12 col-md-9"
                     onChange={handleChange}
                 ></textarea>
