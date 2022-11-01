@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import { pluralize, idbPromise, getProceeds } from "../../../utils/helpers";
 import { useStoreContext } from "../../../utils/shopping/GlobalState";
 import {
@@ -42,7 +42,6 @@ function ProductItem(item) {
           {price && (
             <img
               src={`/images/shopping/${image}`}
-              href={`/products/${_id}`}
               alt={name}
               className="h-full w-full object-cover object-center"
             />
@@ -71,6 +70,7 @@ function ProductItem(item) {
           )}
         </div>
       </div>
+      <Link to={`/products/${_id}`}>hello</Link>
       {price && (
         <div className="mt-6">
           <a

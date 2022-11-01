@@ -1,7 +1,7 @@
 import React from "react";
 import ProductList from "../components/shopping/ProductList";
 import CategoryMenu from "../components/shopping/CategoryMenu";
-import Cart from "../components/shopping/Cart";
+
 import ChooseARescue from "./shopping/ChooseRescue";
 const OrderNow = () => {
   return (
@@ -13,7 +13,6 @@ const OrderNow = () => {
         <CategoryMenu />
         <ProductList />
         <ChooseARescue />
-        <Cart />
       </div>
     </div>
   );

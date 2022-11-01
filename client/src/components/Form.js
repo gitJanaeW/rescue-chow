@@ -60,7 +60,7 @@ function RescueForm() {
         });
       });
     }
-  }, [checkoutData, loading, dispatch, data.products]);
+  }, [checkoutData, loading, dispatch]);
 
   function filterProducts() {
     if (!currentCategory) {
