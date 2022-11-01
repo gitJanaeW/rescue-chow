@@ -1,9 +1,10 @@
 const db = require('./connections');
-const { User } = require('../models');
-const { Product, Category, Thought } = require('../models');
+const { User, Product, Category } = require('../models');
 
 db.once('open', async () => {
   await Category.deleteMany();
+  await Product.deleteMany();
+  await User.deleteMany();
 
   const categories = await Category.insertMany([
     { name: 'Cat Treats' },
@@ -14,8 +15,6 @@ db.once('open', async () => {
 
   console.log('categories seeded');
 
-  await Product.deleteMany();
-
   const products = await Product.insertMany([
     {
       name: 'Kitty Kisses 60g',
@@ -25,6 +24,7 @@ db.once('open', async () => {
       category: categories[0]._id,
       price: -9.99,
       quantity: 1,
+
     },
     {
       name: 'Beef Chews 100g',
@@ -33,7 +33,8 @@ db.once('open', async () => {
       image: 'Beef Chews.png',
       category: categories[1]._id,
       price: 10.99,
-      quantity: 1
+      quantity: 1,
+
     },
     {
       name: 'Chicken Chunks 100g',
@@ -42,7 +43,8 @@ db.once('open', async () => {
       image: 'Chicken Chunks.png',
       category: categories[1]._id,
       price: 9.99,
-      quantity: 1
+      quantity: 1,
+
     },
     {
       name: 'Beef Bites 90g',
@@ -51,90 +53,83 @@ db.once('open', async () => {
         'No additives No Preservatives, Beef Bites made in Canada with fresh Canadian beef, low fat, pocket friendly, breakable for small dogs and training',
       image: 'Beef Bites.png',
       price: 9.99,
-      quantity: 1
+      quantity: 1,
+
     },
     {
       name: "All Paws Matter",
       website: "https://www.apmrescue.com/",
       category: categories[3]._id,
-      price: 0
+      price: 0,
 
     },
     {
       name: "Scugog Pet Food Bank",
       website: "https://www.facebook.com/UxScPetFoodBank/",
       category: categories[3]._id,
-      price: 0
+      price: 0,
+
     },
     {
       name: "Rescue Chow Pet Food Bank Durham Region",
       category: categories[3]._id,
-      price: 0
+      price: 0,
+
     },
     {
       name: "Team Chelsea",
       website: "https://www.facebook.com/groups/165123396868018",
       category: categories[3]._id,
+
       price: 0
     },
     {
       name: "Durham Humane Society",
       website: "http://www.hsdr.org/",
       category: categories[3]._id,
+
       price: 0
+
     },
     {
       name: "Toronto Humane Society",
       website: "https://www.torontohumanesociety.com/",
       category: categories[3]._id,
+
       price: 0
     },
     {
       name: "Jack Russell Terrier Rescue Ontario",
       website: "https://russellrescue.org/",
       category: categories[3]._id,
+
       price: 0
     },
     {
       name: "Headwaters Pet Food Bank",
       website: "https://www.facebook.com/Headwaters-Pet-Food-Bank-2503362129697849/",
       category: categories[3]._id,
+
       price: 0
     },
 
   ]);
 
-  console.log('products seeded');
+
+  console.log('seeded');
 
 
-  const thoughts = await Thought.insertMany([
-    {
-      "thoughtText": "i fucking LOVE kitty kisses!!!",
-      "username": "Pamela",
-      product: products[0]._id
-    },
-  ])
-
-  console.log('products seeded');
-  console.log('thoughts seeded');
-  console.log({ thoughts });
-  await User.deleteMany();
-
-  await User.create({
+  var pam = await User.create({
     firstName: 'Pamela',
     lastName: 'Washington',
     username: 'Pamela',
     email: 'pamela@testmail.com',
     password: 'password12345',
     orders: [
-      {
-        products: [products[0]._id, products[0]._id, products[1]._id]
-      }
     ],
-    thoughts: [thoughts[0]]
   });
 
-  await User.create({
+  var eli = await User.create({
     firstName: 'Elijah',
     lastName: 'Holt',
     username: 'Ej',
@@ -143,6 +138,13 @@ db.once('open', async () => {
   });
 
   console.log('users seeded');
+
+  await Product.findOneAndUpdate(
+    { _id: products[0]._id },
+    { $addToSet: { thoughts: { thoughtText: "meow", username: pam.username } } },
+    { new: true, runValidators: true }
+  );
+
 
   // const rescues = await Rescues.insertMany([
   //   {

@@ -1,6 +1,6 @@
 
-const {AuthenticationError} = require('apollo-server-express');
-const { User, Product, Category, Orders, Rescues, ItemLine, Thought} = require('../models');
+const { AuthenticationError } = require('apollo-server-express');
+const { User, Product, Category, Orders, Rescues, ItemLine, Thought } = require('../models');
 
 
 
@@ -16,16 +16,16 @@ const resolvers = {
     },
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin; // https://localhost:3001 or new URL(context.headers.referer).origin;
-      
+
       const line_items = [];
       const prodLines = [];
-      
+
       for (let i = 0; i < args.products.length; i++) {
         let newLine = new ItemLine(args.products[i]);
-        const {prodId} = await newLine.populate('prodId');
+        const { prodId } = await newLine.populate('prodId');
         prodId.quantity = args.products[i].qnty;
         prodLines.push(prodId);
-      };   
+      };
 
       for (let i = 0; i < prodLines.length; i++) {
         // generate product id
@@ -40,13 +40,13 @@ const resolvers = {
           product: product.id,
           unit_amount: prodLines[i].price * 100,
           currency: 'cad',
-        });  
+        });
         // add price id to the line items array
         line_items.push({
           price: price.id,
           quantity: prodLines[i].quantity
         });
-        
+
       }
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
@@ -74,19 +74,19 @@ const resolvers = {
                 },
               }
             }
-          },          
+          },
         ],
-        
+
         line_items,
         mode: 'payment',
         success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${url}/`
       });
-      
+
       return { session: session.id };
     },
 
-    products: async (parent, { category, name, thoughts }) => {
+    products: async (parent, { category, name }) => {
       const params = {};
 
       if (category) {
@@ -98,36 +98,20 @@ const resolvers = {
           $regex: name
         };
       }
-      if (thoughts) {
-        params.thoughts = thoughts
-      }
+
 
       return await Product.find(params)
         .populate('category')
         .populate('thoughts');
 
     },
+
     product: async (parent, { _id }) => {
       return await Product.findById(_id)
         .populate('category')
         .populate('thoughts');
     },
-    thoughts: async (parent, { username, product }) => {
-      const params = {};
-      if (username) {
-        params.username = username;
-      }
 
-      if (product) {
-        params.product = product;
-
-      }
-      console.log("hi")
-      return Thought.find(params).sort({ createdAt: -1 });
-    },
-    thought: async (parent, { _id }) => {
-      return Thought.findOne({ _id });
-    },
     user: async (parent, args, context) => {
       if (context.user) { //context.user
         const user = await User.findById(context.user).populate({ //context.user
@@ -142,13 +126,13 @@ const resolvers = {
               path: 'orders.products',
               populate: 'category'
             });
-  
+
           user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
-  
+
           return user;
         }
 
-      throw new AuthenticationError('Not logged in');
+        throw new AuthenticationError('Not logged in');
       }
     },
 
@@ -161,17 +145,17 @@ const resolvers = {
 
         return user.orders.id(_id);
       }
-    
+
       throw new AuthenticationError('Not logged in');
     },
 
-    thoughts: async (parent, { username }) => {
-      const params = username ? { username } : {};
-      return Thought.find(params).sort({ createdAt: -1 });
-    },
-    thought: async (parent, { _id }) => {
-      return Thought.findOne({ _id });
-    }
+    // thoughts: async (parent, { username }) => {
+    //   const params = username ? { username } : {};
+    //   return Thought.find(params).sort({ createdAt: -1 });
+    // },
+    // thought: async (parent, { _id }) => {
+    //   return Thought.findOne({ _id });
+    // }
 
   },
   Mutation: {
@@ -182,7 +166,7 @@ const resolvers = {
       return { token, user };
     },
 
-    addNewOrder: async (parent, {products}, context) => {
+    addNewOrder: async (parent, { products }, context) => {
       const productsArray = [];
       products.forEach(item => {
         const newLine = new ItemLine(item);
@@ -217,7 +201,6 @@ const resolvers = {
     },
     updateProduct: async (parent, { _id, quantity }) => {
       const decrement = Math.abs(quantity) * -1;
-
       return await Product.findByIdAndUpdate(_id, { $inc: { quantity: decrement } }, { new: true });
     },
     login: async (parent, { email, password }) => {
@@ -237,36 +220,37 @@ const resolvers = {
 
       return { token, user };
     },
-    addThought: async (parent, args, context) => {
+
+    // addThought: async (parent, {product, thoughtText}, context) => {
+    //   if (context.user) {
+    //     const thought = await Thought.create({ ...args, username: context.user.username });
+
+    //     await Product.findByIdAndUpdate(
+    //       { _id: context.product._id },
+    //       { $push: { thoughts: thought._id } },
+    //       { new: true }
+    //     );
+
+    //     return thought;
+    //   }
+
+    //   throw new AuthenticationError('You need to be logged in!');
+    // },
+    addThought: async (parent, { product, thoughtText }, context) => {
       if (context.user) {
-        const thought = await Thought.create({ ...args, username: context.user.username });
-
-        await User.findByIdAndUpdate(
-          { _id: context.user._id },
-          { $push: { thoughts: thought._id } },
-          { new: true }
-        );
-
-        return thought;
-      }
-
-      throw new AuthenticationError('You need to be logged in!');
-    },
-    addReaction: async (parent, { thoughtId, reactionBody }, context) => {
-      if (context.user) {
-        const updatedThought = await Thought.findOneAndUpdate(
-          { _id: thoughtId },
-          { $push: { reactions: { reactionBody, username: context.user.username } } },
+        const updatedProduct = await Product.findOneAndUpdate(
+          { _id: product },
+          { $push: { thoughts: { thoughtText, username: context.user.username } } },
           { new: true, runValidators: true }
         );
 
-        return updatedThought;
+        return updatedProduct;
       }
 
       throw new AuthenticationError('You need to be logged in!');
     },
   }
 };
-      
+
 module.exports = resolvers;
 

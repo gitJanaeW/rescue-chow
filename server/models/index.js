@@ -6,8 +6,6 @@ const Category = require('./shopping/Category');
 
 const ItemLine = require('./shopping/ItemLine');
 
-const Thought = require('./shopping/Thought');
-
 
 module.exports = {
     ItemLine,
@@ -15,6 +13,5 @@ module.exports = {
     Rescues,
     User,
     Product,
-    Category,
-    Thought
+    Category
 };

@@ -89,8 +89,8 @@ const Cart = () => {
           ))}
 
           <div className="flex-row space-between">
-            <span> {state.selectedRescueValue}</span>
-            <span>25% of this purchase (${onlyProceeds()}) is saving animals!</span>
+            <span> {state.selectedRescueValue} </span>
+            <span>25% of this purchase (${onlyProceeds()}) is saving animals! </span>
             <strong>Total: ${calculateTotal()}</strong>
             {Auth.loggedIn() ? (
               <button onClick={submitCheckout}>Checkout</button>

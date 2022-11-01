@@ -30,9 +30,6 @@ export const QUERY_THOUGHTS = gql`
       createdAt
       username
       reactionCount
-      products {
-        _id
-      }
       reactions {
         _id
         createdAt
