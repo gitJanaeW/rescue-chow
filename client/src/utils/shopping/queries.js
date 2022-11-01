@@ -43,6 +43,12 @@ export const QUERY_ALL_PRODUCTS = gql`
       category {
         name
       }
+      thoughts {
+        _id
+        thoughtText
+        createdAt
+        username
+      }
     }
   }
 `;

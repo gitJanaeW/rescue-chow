@@ -81,11 +81,6 @@ function RescueForm() {
             }
         });
 
-        // const selectedRescueObj = { selectedRescue: radio }
-        // save to local storage
-        //     localStorage.setItem("selectedRescue", JSON.stringify(selectedRescueObj));
-        //    JSON.parse(localStorage.getItem("selectedRescue"));
-
         getCheckout({
             variables: { products: productIds },
         });

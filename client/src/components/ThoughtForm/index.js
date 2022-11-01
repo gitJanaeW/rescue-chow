@@ -1,35 +1,29 @@
-import React, { useState } from 'react';
-
-import { useMutation } from '@apollo/client';
-import { ADD_THOUGHT } from '../../utils/shopping/mutations';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useMutation, useQuery } from '@apollo/client';
+import { ADD_THOUGHT } from '../../utils/shopping/mutations'
+import { useStoreContext } from '../../utils/shopping/GlobalState';
 import { QUERY_PRODUCTS } from '../../utils/shopping/queries';
 
-const ThoughtForm = ({ product }) => {
+const ThoughtForm = ({ }) => {
     const [thoughtText, setBody] = useState('');
     const [characterCount, setCharacterCount] = useState(0);
-    const [addThought, { error }] = useMutation(ADD_THOUGHT, {
-        update(cache, { data: { addThought } }) {
+    const [addThought, { error }] = useMutation(ADD_THOUGHT);
+    const [state, dispatch] = useStoreContext();
+    const { id } = useParams();
 
-            // could potentially not exist yet, so wrap in a try/catch
-            try {
-                // update me array's cache
-                const { products } = cache.readQuery({ query: QUERY_PRODUCTS });
-                cache.writeQuery({
-                    query: QUERY_PRODUCTS,
-                    data: { thoughts: [...products.thoughts, addThought] },
-                });
-            } catch (e) {
-                console.warn("First thought insertion by user!")
-            }
+    const [currentProduct, setCurrentProduct] = useState({});
 
-            // update thought array's cache
-            const { products } = cache.readQuery({ query: QUERY_PRODUCTS });
-            cache.writeQuery({
-                query: QUERY_PRODUCTS,
-                data: { thoughts: [addThought, { products }] },
-            });
+    const { loading, data } = useQuery(QUERY_PRODUCTS);
+    const { products } = state;
+    const product = currentProduct._id
+    useEffect(() => {
+        // already in global store
+        if (data && data.products && data.products.length) {
+            setCurrentProduct(data.products.find((product) => product._id === id));
+
         }
-    });
+    }, [products, data, loading, dispatch, id]);
 
     // update state based on form input changes
     const handleChange = (event) => {
@@ -37,24 +31,26 @@ const ThoughtForm = ({ product }) => {
             setBody(event.target.value);
             setCharacterCount(event.target.value.length);
         }
+
     };
 
     // submit form
     const handleFormSubmit = async (event) => {
         event.preventDefault();
+
         try {
             await addThought({
-                variables: { thoughtText: thoughtText },
-
+                variables: { product, thoughtText },
             });
-            // console.log(addThought())
+
+            console.log("hi")
+            console.log(products._id)
             // clear form value
             setBody('');
             setCharacterCount(0);
         } catch (e) {
             console.error(e);
         }
-        // console.log(thoughtText)
     };
 
     return (
@@ -62,6 +58,7 @@ const ThoughtForm = ({ product }) => {
             <p
                 className={`m-0 ${characterCount === 280 || error ? 'text-error' : ''}`}
             >
+                Leave A Review!
                 Character Count: {characterCount}/280
                 {error && <span className="ml-2">Something went wrong...</span>}
             </p>
@@ -72,7 +69,6 @@ const ThoughtForm = ({ product }) => {
                 <textarea
                     placeholder="Leave a review..."
                     value={thoughtText}
-                    name="thoughtText"
                     className="form-input col-12 col-md-9"
                     onChange={handleChange}
                 ></textarea>

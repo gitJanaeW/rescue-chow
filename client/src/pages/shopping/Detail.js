@@ -14,7 +14,6 @@ import { QUERY_PRODUCTS } from '../../utils/shopping/queries';
 import { idbPromise, getProceeds } from '../../utils/helpers';
 import spinner from '../../assets/spinner.gif';
 import ThoughtForm from "../../components/ThoughtForm";
-import { ADD_THOUGHTS } from "../../utils/shopping/mutations"
 
 function Detail() {
   const [state, dispatch] = useStoreContext();
@@ -23,64 +22,15 @@ function Detail() {
   const [currentProduct, setCurrentProduct] = useState({});
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
-  // const [getThought, thoughtData] = useLazyQuery(QUERY_THOUGHTS);
-  // console.log(data.products);
   const { products, cart } = state;
-  console.log(currentProduct)
 
   useEffect(() => {
     // already in global store
     if (data && data.products && data.products.length) {
       setCurrentProduct(data.products.find((product) => product._id === id));
 
-
-
-      // async function getThoughtAsync() {
-      //   await getThought({ variables: { product: id } })
-      //   // console.log({ thoughtData })
-      // }
-      // getThoughtAsync();
     }
-
-    // retrieved from server
-    // else if (data) {
-    //   dispatch({
-    //     type: UPDATE_PRODUCTS,
-    //     products: data.products,
-
-    //   });
-
-    //   data.products.forEach((product) => {
-    //     idbPromise('products', 'put', product);
-    //   });
-    // }
-    //   // get cache from idb
-    //   else if (!loading) {
-    //   idbPromise('products', 'get').then((indexedProducts) => {
-    //     dispatch({
-    //       type: UPDATE_PRODUCTS,
-    //       products: indexedProducts,
-    //     });
-    //   });
-    // }
   }, [products, data, loading, dispatch, id]);
-
-  function filterThoughts() {
-    if (products._id === currentProduct) {
-      return state.products
-    }
-
-    // if (products.length) {
-    //   setCurrentProduct(products.find((product) => product._id === id));
-    // }
-    // if (currentProduct._id = id) {
-    //   return data.products;
-    // }
-
-    // return data.products.filter(
-    //   (product) => product._id === currentProduct
-    // )
-  }
 
 
   const addToCart = () => {
@@ -141,7 +91,7 @@ function Detail() {
             src={`/images/shopping/${currentProduct.image}`}
             alt={currentProduct.name}
           />
-          {/* <ThoughtForm></ThoughtForm> */}
+          <ThoughtForm></ThoughtForm>
           {currentProduct.thoughts &&
             <div>
               Reviews:
