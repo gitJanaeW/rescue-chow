@@ -142,16 +142,17 @@ function Detail() {
             alt={currentProduct.name}
           />
           {/* <ThoughtForm></ThoughtForm> */}
-          <div>
-            Reviews:
-            {currentProduct.thoughts.map((e) => {
-              return (
-                <div>
-                  <h1> Username: {e.username}</h1>
-                  <p>Comment:{e.thoughtText}</p>
-                </div>)
-            })}
-          </div>
+          {currentProduct.thoughts &&
+            <div>
+              Reviews:
+              {currentProduct.thoughts.map((e) => {
+                return (
+                  <div>
+                    <h1> Username: {e.username}</h1>
+                    <p>Comment:{e.thoughtText}</p>
+                  </div>)
+              })}
+            </div>}
         </div>
       ) : null}
       {loading ? <img src={spinner} alt="loading" /> : null}
