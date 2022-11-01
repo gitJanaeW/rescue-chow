@@ -93,7 +93,7 @@ const Cart = (props) => {
                     <div className="p-6">
                       <div className="flex items-start justify-between">
                         <Dialog.Title className="text-lg font-medium text-gray-900">
-                          Team
+                          Checkout
                         </Dialog.Title>
                         <div className="ml-3 flex h-7 items-center">
                           <button
@@ -115,15 +115,24 @@ const Cart = (props) => {
                         <CartItem key={item._id} item={item} />
                       ))}
                     </ul>
-                    <div className="flex-row space-between">
-                      <span> {state.selectedRescueValue}</span>
-                      <span>
+                    <div className="flex flex-col align-center justify-center">
+                      <span className="text-sm ml-4 mt-2 font-medium text-gray-900">
+                        {state.selectedRescueValue}
+                      </span>
+                      <span className="ml-4 mt-1 text-sm text-gray-500">
                         25% of this purchase (${onlyProceeds()}) is saving
                         animals!
                       </span>
-                      <strong>Total: ${calculateTotal()}</strong>
+                      <strong className="relative ml-4 mb-4 mt-1  text-lg font-semibold text-black">
+                        Total: ${calculateTotal()}
+                      </strong>
                       {Auth.loggedIn() ? (
-                        <button onClick={submitCheckout}>Checkout</button>
+                        <button
+                          className="ml-4 my-2 inline-flex items-center justify-center rounded-md border border-gray-400 bg-red-300 px-6 py-3 text-base font-medium text-gray-700 shadow-sm hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+                          onClick={submitCheckout}
+                        >
+                          Checkout
+                        </button>
                       ) : (
                         <span>(log in to check out)</span>
                       )}

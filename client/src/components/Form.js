@@ -8,6 +8,7 @@ import { useLazyQuery } from "@apollo/client";
 import {
   ADD_MULTIPLE_TO_CART,
   ADD_RESCUE_CHECKOUT,
+  TOGGLE_CART,
 } from "../utils/shopping/actions";
 import { loadStripe } from "@stripe/stripe-js";
 
@@ -78,6 +79,7 @@ function RescueForm() {
       type: ADD_RESCUE_CHECKOUT,
       selectedRescueValue: radio,
     });
+    dispatch({ type: TOGGLE_CART });
     state.cart.forEach((item) => {
       for (let i = 0; i < item.purchaseQuantity; i++) {
         productIds.push(item._id);

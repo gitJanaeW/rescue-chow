@@ -70,16 +70,16 @@ function ProductItem(item) {
           )}
         </div>
       </div>
-      <Link to={`/products/${_id}`}>hello</Link>
+      <Link to={`/products/${_id}`}>view item</Link>
       {price && (
-        <div className="mt-6">
-          <a
-            href="#"
+        <div className="mt-6 flex items-center justify-center">
+          <button
+            type="button"
+            className="rounded-md relative w-11/12  py-2 px-8 outline outline-gray-400  outline-1 bg-gray-100 text-gray-900 hover:bg-gray-200 "
             onClick={addToCart}
-            className="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 py-2 px-8 text-sm font-medium text-gray-900 hover:bg-gray-200"
           >
-            Add to bag<span className="sr-only">, {name}</span>
-          </a>
+            Add to bag
+          </button>
         </div>
       )}
     </div>
