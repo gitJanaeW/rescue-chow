@@ -8,6 +8,8 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import dropdownImg from "../assets/icons8-double-down-50.png";
 import { idbPromise } from '../utils/helpers';
+import { useStoreContext } from "../utils/shopping/GlobalState";
+import { TOGGLE_CART } from "../utils/shopping/actions";
 
 const user = {
   name: "user",
@@ -67,17 +69,14 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Nav() {
+export default function Nav(props) {
+  const [, dispatch] = useStoreContext();
+
+  function toggleCart() {
+    dispatch({ type: TOGGLE_CART });
+  }
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
       <div className="min-h-full ">
         <Disclosure as="nav" className=" bg-grey-223  ">
           {({ open }) => (
@@ -114,15 +113,16 @@ export default function Nav() {
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-4 flex items-center md:ml-6">
-                      {/* <button
+                      <button
                         type="button"
-                        className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                        onClick={toggleCart}
+                        className="rounded-full  p-3 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                       >
-                        <span className="sr-only">View notifications</span>
-                        <BellIcon className="h-6 w-6" aria-hidden="true" />
-                      </button> */}
+                        <span role="img" aria-label="trash">
+                          🛒
+                        </span>
+                      </button>
 
-                      {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
                         <div>
                           <Menu.Button className="flex max-w-xs items-center rounded-full bg-red-400 outline outline-3 outline-white text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">

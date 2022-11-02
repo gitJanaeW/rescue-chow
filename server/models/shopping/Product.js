@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
+const thoughtSchema = require('./Thought')
 
 const productSchema = new Schema({
   name: {
@@ -28,7 +29,8 @@ const productSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Category',
     required: true
-  }
+  },
+  thoughts: [thoughtSchema],
 });
 
 const Product = mongoose.model('Product', productSchema);

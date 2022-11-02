@@ -1,9 +1,13 @@
-const { Schema, model } = require('mongoose');
-const reactionSchema = require('./Reaction');
+const { Schema, Types } = require('mongoose');
+
 // const dateFormat = require('../../utils/helpers');
 
 const thoughtSchema = new Schema(
   {
+    thoughtId: {
+      type: Schema.Types.ObjectId,
+      default: () => Types.ObjectId()
+    },
     thoughtText: {
       type: String,
       required: 'You need to leave a thought!',
@@ -15,23 +19,19 @@ const thoughtSchema = new Schema(
       default: Date.now,
       // get: timestamp => dateFormat(timestamp)
     },
-    username: {
+    username:
+    {
       type: String,
       required: true
-    },
-    reactions: [reactionSchema]
+    }
+
   },
   {
     toJSON: {
       getters: true
-    }
+    },
+    id: false
   }
 );
 
-thoughtSchema.virtual('reactionCount').get(function () {
-  return this.reactions.length;
-});
-
-const Thought = model('Thought', thoughtSchema);
-
-module.exports = Thought;
+module.exports = thoughtSchema; 

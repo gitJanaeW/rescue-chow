@@ -14,6 +14,7 @@ const typeDefs = gql`
     quantity: Int
     price: Float
     category: Category
+    thoughts: [Thought]
   }
 
   type Order {
@@ -37,8 +38,6 @@ const typeDefs = gql`
     thoughtText: String
     createdAt: String
     username: String
-    reactionCount: Int
-    reactions: [Reaction]
   }
 
   type Rescue {
@@ -46,13 +45,6 @@ const typeDefs = gql`
     name: String
     website: String
     amountOwed: Int
-  }
-
-  type Reaction {
-    _id: ID
-    reactionBody: String
-    createdAt: String
-    username: String
   }
 
 
@@ -107,8 +99,6 @@ const typeDefs = gql`
     order(_id: ID!): Order
     checkout(products: [LineItem]!): Checkout
     rescues: [Rescue]
-    thoughts(username: String): [Thought]
-    thought(_id: ID!): Thought
   }
 
   type Mutation {
@@ -118,8 +108,7 @@ const typeDefs = gql`
     addOrder(products: [ID]!): Order
     updateUser(firstName: String, lastName: String, username: String, email: String, password: String): User
     updateProduct(_id: ID!, quantity: Int!): Product
-    addThought(thoughtText: String!): Thought
-    addReaction(thoughtId: ID!, reactionBody: String!): Thought
+    addThought(product: ID, thoughtText: String!): Product
     login(email: String!, password: String!): Auth
     addRescue(name: String!, website: String, amountOwed: Int!): Rescue
   }

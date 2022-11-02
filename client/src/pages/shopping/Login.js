@@ -16,10 +16,10 @@ function Login(props) {
       });
       const token = mutationResponse.data.login.token;
       const userIdTest = mutationResponse.data.login.user._id
-      console.log(userIdTest)
+      // console.log(userIdTest)
       Auth.login(token);
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   };
 
