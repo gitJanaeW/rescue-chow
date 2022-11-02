@@ -21,6 +21,7 @@ mutation AddNewOrder($products: [LineItem]) {
         _id
         name
         description
+        website
         image
         quantity
         price
@@ -43,6 +44,7 @@ export const ADD_ORDER = gql`
         _id
         name
         description
+        website
         price
         quantity
         category {
