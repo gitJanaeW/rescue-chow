@@ -98,10 +98,10 @@ const products = await Product.insertMany([
   price: 0,
 },
 {
-  name: "Headwaters Pet Food Bank",
+  name: "The Pet Pantry",
   website:
-    "https://www.facebook.com/Headwaters-Pet-Food-Bank-2503362129697849/",
-  description: "Helloooo",
+    "https://www.facebook.com/thepetpantryguelph/",
+  description: "Guelph’s Pet Food Bank",
     category: categories[2]._id,
   price: 0,
 },
