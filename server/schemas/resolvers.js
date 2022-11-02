@@ -32,6 +32,7 @@ const resolvers = {
         const product = await stripe.products.create({
           name: prodLines[i].name,
           description: prodLines[i].description,
+          website: prodLines[i].website,
           images: [`${url}/images/${prodLines[i].image}`]
         });
 

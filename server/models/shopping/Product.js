@@ -30,6 +30,9 @@ const productSchema = new Schema({
     ref: 'Category',
     required: true
   },
+  website: {
+    type: String,
+  },
   thoughts: [thoughtSchema],
 });
 

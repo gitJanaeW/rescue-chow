@@ -52,7 +52,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="text-center mt-4">
-        <p>Copyright & copy;2022 Rescue Chow Powered by T.J.S.S Production</p>
+        <p>Copyright &copy;2022 Rescue Chow Powered by T.J.S.S Production</p>
       </div>
     </footer>
   );
