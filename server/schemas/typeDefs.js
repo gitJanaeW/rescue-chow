@@ -16,6 +16,7 @@ const typeDefs = gql`
     category: Category
     website: String
     thoughts: [Thought]
+    website: String
   }
 
   type Order {

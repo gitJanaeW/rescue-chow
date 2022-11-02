@@ -10,6 +10,7 @@ export const QUERY_PRODUCTS = gql`
       price
       quantity
       image
+      website
       thoughts {
         _id
         thoughtText
@@ -42,6 +43,7 @@ export const QUERY_ALL_PRODUCTS = gql`
       website
       price
       quantity
+      website
       category {
         name
       }

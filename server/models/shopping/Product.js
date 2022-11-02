@@ -31,7 +31,7 @@ const productSchema = new Schema({
     required: true
   },
   website: {
-    type: String,
+    type: String
   },
   thoughts: [thoughtSchema],
 });
