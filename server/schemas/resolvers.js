@@ -32,7 +32,7 @@ const resolvers = {
         const product = await stripe.products.create({
           name: prodLines[i].name,
           description: prodLines[i].description,
-          images: [`${url}/images/${prodLines[i].image}`]
+          //images: [`${url}/images/${prodLines[i].image}`]
         });
 
         // generate price id using the product id
