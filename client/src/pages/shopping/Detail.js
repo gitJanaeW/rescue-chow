@@ -89,6 +89,7 @@ function Detail() {
                 return (
                   <div>
                     <div><Rate rating={e.rating}></Rate></div>
+                    <div>{e.createdAt}</div>
                     <h1> Username: {e.username}</h1>
                     <p>Comment:{e.thoughtText}</p>
                   </div>)
