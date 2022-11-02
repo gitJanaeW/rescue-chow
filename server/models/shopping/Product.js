@@ -32,7 +32,6 @@ const productSchema = new Schema({
   },
   website: {
     type: String,
-    trim: true
   },
   thoughts: [thoughtSchema],
 });

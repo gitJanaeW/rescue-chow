@@ -92,7 +92,6 @@ function FindARescue() {
       variables: { products: productIds },
     });
   }
-  console.log(state.products)
   return (
     <div className="flex justify-center align-center">
       <legend className="text-lg font-medium text-gray-900">Our Rescues</legend>
@@ -103,8 +102,11 @@ function FindARescue() {
                 <div className="min-w-0 flex-1 text-sm">
                 <div className="ml-3 flex h-5 items-center">
                     <p className="border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                      {console.log(product)}
                         {product.name}
                         {product.description}
+                        {/* not all of the charities have a website, so you might need to use ?: or && */}
+                        {product.website}
                     </p>
                 </div>
             </div>
