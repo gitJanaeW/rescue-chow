@@ -6,6 +6,7 @@ export const QUERY_PRODUCTS = gql`
       _id
       name
       description
+      website
       price
       quantity
       image
@@ -39,6 +40,7 @@ export const QUERY_ALL_PRODUCTS = gql`
       _id
       name
       description
+      website
       price
       quantity
       website
@@ -139,3 +141,32 @@ export const QUERY_ME_BASIC = gql`
   }
 `;
 
+export const QUERY_USER_ORDER_HISTORY = gql`
+  query UserOrderHistory {
+    userOrderHistory {
+      _id
+      firstName
+      lastName
+      email
+      orders {
+        _id
+        purchaseDate
+        products {
+          prodId {
+            _id
+            name
+            description
+            image
+            quantity
+            price
+            category {
+              _id
+              name
+            }
+          }
+          qnty
+        }
+      }
+    }
+  }
+`;

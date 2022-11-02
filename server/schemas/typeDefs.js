@@ -14,6 +14,7 @@ const typeDefs = gql`
     quantity: Int
     price: Float
     category: Category
+    website: String
     thoughts: [Thought]
     website: String
   }
@@ -97,6 +98,7 @@ const typeDefs = gql`
     product(_id: ID!): Product
     user(username: String!): User    
     users: [User]
+    userOrderHistory:User
     order(_id: ID!): Order
     checkout(products: [LineItem]!): Checkout
     rescues: [Rescue]

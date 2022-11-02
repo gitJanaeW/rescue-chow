@@ -22,6 +22,12 @@ const Cart = (props) => {
   const [state, dispatch] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
 
+  const toLocalStorage = () => {
+    state.cart.forEach((item) => {
+      localStorage.setItem("cartItems", item);
+    });
+  }
+
   useEffect(() => {
     if (data) {
       stripePromise.then((res) => {
@@ -72,7 +78,6 @@ const Cart = (props) => {
   };
 
   return (
-
     <Transition.Root show={state.cartOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={toggleCart}>
         <div className="fixed inset-0" />

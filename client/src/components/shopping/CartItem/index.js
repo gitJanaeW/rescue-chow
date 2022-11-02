@@ -5,8 +5,7 @@ import {
 } from "../../../utils/shopping/actions";
 import { idbPromise } from "../../../utils/helpers";
 
-const CartItem = (props) => {
-  const { item } = props;
+const CartItem = ({ item }) => {
   const [, dispatch] = useStoreContext();
 
   const removeFromCart = (item) => {
