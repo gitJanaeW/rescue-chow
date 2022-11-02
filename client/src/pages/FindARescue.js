@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useStoreContext } from "../utils/shopping/GlobalState";
 import { UPDATE_PRODUCTS } from "../utils/shopping/actions";
 import { useQuery } from "@apollo/client";
 import { QUERY_PRODUCTS, QUERY_CHECKOUT } from "../utils/shopping/queries";
 import { idbPromise } from "../utils/helpers";
 import { useLazyQuery } from "@apollo/client";
-import {
-  ADD_MULTIPLE_TO_CART,
-  ADD_RESCUE_CHECKOUT,
-  TOGGLE_CART,
-} from "../utils/shopping/actions";
+import { ADD_MULTIPLE_TO_CART } from "../utils/shopping/actions";
 import { loadStripe } from "@stripe/stripe-js";
+import img from "../assets/cat-and-girl.jpg";
 
 const stripePromise = loadStripe(
   "pk_test_51LwAJXFZoRYZwQnKvp7DSqLSz0HG4gAQJjH2JTAIUXOdYLCwSSFX4M4o9j1Yjta226OxbCIrbfyrndJtLmGNyRWh00OtjMPGcA"
@@ -18,12 +15,9 @@ const stripePromise = loadStripe(
 
 function FindARescue() {
   const [state, dispatch] = useStoreContext();
-
   const { currentCategory } = state;
-
   const { loading, data } = useQuery(QUERY_PRODUCTS);
-  const [radio, setRadio] = useState("None");
-  const [getCheckout, { checkoutData }] = useLazyQuery(QUERY_CHECKOUT);
+  const [{ checkoutData }] = useLazyQuery(QUERY_CHECKOUT);
 
   useEffect(() => {
     if (data) {
@@ -63,52 +57,89 @@ function FindARescue() {
     }
   }, [checkoutData, loading, dispatch]);
 
-
   function filterProducts() {
     if (!currentCategory) {
       return state.products;
-
     }
     return state.products.filter(
       (product) => product.category._id === currentCategory
     );
   }
-
-  function submitCheckout(e) {
-    e.preventDefault();
-    const productIds = [];
-    dispatch({
-      type: ADD_RESCUE_CHECKOUT,
-      selectedRescueValue: radio,
-    });
-    dispatch({ type: TOGGLE_CART });
-    state.cart.forEach((item) => {
-      for (let i = 0; i < item.purchaseQuantity; i++) {
-        productIds.push(item._id);
-      }
-    });
-
-    getCheckout({
-      variables: { products: productIds },
-    });
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
   }
+
   return (
-    <div className="flex justify-center align-center">
-      <legend className="text-lg font-medium text-gray-900">Our Rescues</legend>
-      <div className="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
-        {filterProducts().map((product) =>
-          product.category.name === "Rescues" ? (
-            <div className="relative flex items-start py-4">
-              <div className="min-w-0 flex-1 text-sm">
-                <p className="select-none font-medium text-gray-700">
-                  {product.name}
-                  {product.website}
-                  {product.description}
-                </p>
+    // <div className="flex justify-center align-center">
+    //   <legend className="text-lg font-medium text-gray-900">Our Rescues</legend>
+    //   <div className="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
+    //     {filterProducts().map((product) =>
+    //       product.category.name === "Rescues" ? (
+    //         <div className="relative flex items-start py-4">
+    //           <div className="min-w-0 flex-1 text-sm">
+    //             <p className="select-none font-medium text-gray-700">
+    //               {product.name}
+    //               {product.website}
+    //               {product.description}
+    //             </p>
+    //           </div>
+    //         </div>
+    //       ) : null
+    //     )}
+    //   </div>
+    // </div>
+    <div className="bg-white">
+      <div className="mx-auto max-w-2xl py-24 px-4 sm:px-6 sm:py-32 lg:max-w-7xl lg:px-8">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            Our Rescues
+          </h2>
+        </div>
+
+        <div className="mt-16 space-y-16">
+          {filterProducts().map((product, productIdx) =>
+            product.category.name === "Rescues" ? (
+              <div
+                key={product.name}
+                className="flex flex-col-reverse lg:grid lg:grid-cols-12 lg:items-center lg:gap-x-8"
+              >
+                <div
+                  className={classNames(
+                    productIdx % 2 === 0
+                      ? "lg:col-start-1"
+                      : "lg:col-start-8 xl:col-start-9",
+                    "mt-6 lg:mt-0 lg:row-start-1 lg:col-span-5 xl:col-span-4"
+                  )}
+                >
+                  <a href={product.website} target="_blank">
+                    <h3 className="text-lg font-medium text-gray-900">
+                      {product.name}
+                    </h3>
+                  </a>
+                  <p className="mt-2 text-sm text-gray-500">
+                    {product.description}
+                  </p>
+                </div>
+                <div
+                  className={classNames(
+                    productIdx % 2 === 0
+                      ? "lg:col-start-6 xl:col-start-5"
+                      : "lg:col-start-1",
+                    "flex-auto lg:row-start-1 lg:col-span-7 xl:col-span-8"
+                  )}
+                >
+                  <div className="aspect-w-5 aspect-h-2 overflow-hidden rounded-lg bg-gray-100">
+                    <img
+                      src={img}
+                      alt="rescue image"
+                      className="object-cover object-center"
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          ) : null
-        )}
+            ) : null
+          )}
+        </div>
       </div>
     </div>
   );

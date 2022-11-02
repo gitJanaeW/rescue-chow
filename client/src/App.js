@@ -1,6 +1,5 @@
 import { useState, React } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
 import Cart from "./components/shopping/Cart";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -19,13 +18,10 @@ import Detail from "./pages/shopping/Detail";
 import NoMatch from "./pages/shopping/NoMatch";
 import Login from "./pages/shopping/Login";
 import Signup from "./pages/shopping/Signup";
-
 import { StoreProvider } from "./utils/shopping/GlobalState";
 import Success from "./pages/shopping/Success";
 import OrderHistory from "./pages/shopping/OrderHistory";
 import Nav from "./components/Nav";
-
-// import ChooseARescue from "./pages/shopping/ChooseRescue";
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -70,7 +66,6 @@ function App() {
               <Route path="*" element={<NoMatch />} />
             </Routes>
           </StoreProvider>
-          {/* <ChooseARescue></ChooseARescue> */}
           <Footer />
         </div>
       </Router>

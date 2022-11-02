@@ -4,8 +4,6 @@ import petsAbout from "../assets/pets-about-free-img.png";
 import chooseRescueImg from "../assets/pet-with-girl-free-img.png";
 
 const Home = () => {
-
-
   return (
     <div className="bg-hero-pattern bg-cover bg-fixed ">
       <header className="bg-header-pattern bg-center pb-20 md:pb-64 contrast-75 ">
@@ -35,9 +33,7 @@ const Home = () => {
         <div className="mx-auto py-6 sm:px-6 lg:px-8  ">
           <div className="relative overflow-hidden bg-white w-full  shadow-inner">
             <div className="pt-16 pb-80 sm:pt-24 sm:pb-40 lg:pt-40 lg:pb-48">
-
               <div className="relative mx-auto max-w-7xl px-4 sm:static sm:px-6 lg:px-8">
-
                 <div className="sm:max-w-lg">
                   <h1 className="font text-4xl py-4 font-bold tracking-tight text-gray-900 sm:text-6xl">
                     Who We Are
@@ -63,7 +59,6 @@ const Home = () => {
                 </div>
                 <div>
                   <div className="mt-10">
-                    {/* Decorative image grid */}
                     <div
                       aria-hidden="true"
                       className="pointer-events-none lg:absolute lg:inset-y-0 lg:mx-auto lg:w-full lg:max-w-7xl"
@@ -121,7 +116,6 @@ const Home = () => {
                 </div>
                 <div>
                   <div className="mt-10">
-                    {/* Decorative image grid */}
                     <div
                       aria-hidden="true"
                       className="pointer-events-none lg:absolute lg:inset-y-0 lg:mx-auto lg:w-full lg:max-w-7xl"
