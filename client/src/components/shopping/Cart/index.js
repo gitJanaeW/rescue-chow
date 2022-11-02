@@ -78,18 +78,6 @@ const Cart = (props) => {
   };
 
   return (
-    <div className="cart">
-      <div className="close" onClick={toggleCart}>
-        [close]
-      </div>
-      <h2>Shopping Cart</h2>
-      {state.cart.length ? (
-        <div onChange={toLocalStorage}>
-          {state.cart.map((item) => (
-            <CartItem key={item._id} item={item} />
-
-          ))}
-
     <Transition.Root show={state.cartOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={toggleCart}>
         <div className="fixed inset-0" />

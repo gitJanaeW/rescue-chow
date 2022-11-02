@@ -27,11 +27,6 @@ const navigation = [
 let userNavigation = [];
 
 function Logout() {
-  const {loading, data} = useQuery(QUERY_USER);
-  if (data) {
-    console.log("DATA", data);
-  }
-
   async function clearCart() {
     const cart = await idbPromise('cart', 'get');
     if (cart.length) {
