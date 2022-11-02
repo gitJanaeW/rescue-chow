@@ -50,6 +50,13 @@ export const ADD_ORDER = gql`
         category {
           name
         }
+        thoughts {
+          _id
+          thoughtText
+          createdAt
+          username
+          rating
+        }
       }
     }
   }
@@ -81,14 +88,15 @@ export const ADD_USER = gql`
 
 
 export const ADD_THOUGHT = gql`
-  mutation addThought($product: ID, $thoughtText: String!) {
-    addThought(product: $product, thoughtText: $thoughtText) {
+  mutation addThought($product: ID, $thoughtText: String!, $rating: Int) {
+    addThought(product: $product, thoughtText: $thoughtText, rating: $rating) {
       _id
       thoughts {
       _id
       thoughtText
       createdAt
       username
+      rating
     }
     }
   }

@@ -9,23 +9,23 @@ db.once("open", async () => {
   await Product.deleteMany();
   await User.deleteMany();
 
-const categories = await Category.insertMany([
-  { name: "Cat Treats" },
-  { name: "Dog Treats" },
-  { name: "Rescues" },
-]);
+  const categories = await Category.insertMany([
+    { name: "Cat Treats" },
+    { name: "Dog Treats" },
+    { name: "Rescues" },
+  ]);
 
-console.log("categories seeded");
+  console.log("categories seeded");
 
-const products = await Product.insertMany([
-  {
-    name: "Kitty Kisses 60g",
-    description:
-      "1 calorie Liver Kitty Treats made in Canada with omega 3s and organic catnip, Kitty Kisses will earn you kitty kisses any day!",
-    image: "Kitty Kisses.png",
-    category: categories[0]._id,
-    price: 9.99,
-    quantity: 0,
+  const products = await Product.insertMany([
+    {
+      name: "Kitty Kisses 60g",
+      description:
+        "1 calorie Liver Kitty Treats made in Canada with omega 3s and organic catnip, Kitty Kisses will earn you kitty kisses any day!",
+      image: "Kitty Kisses.png",
+      category: categories[0]._id,
+      price: 9.99,
+      quantity: 0,
     },
     {
       name: "Beef Chews 100g",
@@ -105,33 +105,35 @@ const products = await Product.insertMany([
     },
   ]);
 
-console.log('seeded');
+  console.log('seeded');
 
 
-var pam = await User.create({
-  firstName: 'Pamela',
-  lastName: 'Washington',
-  username: 'Pamela',
-  email: 'pamela@testmail.com',
-  password: 'password12345',
-  orders: [
-  ],
-});
+  var pam = await User.create({
+    firstName: 'Pamela',
+    lastName: 'Washington',
+    username: 'Pamela',
+    email: 'pamela@testmail.com',
+    password: 'password12345',
+    orders: [
+    ],
+  });
 
-var eli = await User.create({
-  firstName: 'Elijah',
-  lastName: 'Holt',
-  username: 'Ej',
-  email: 'eholt@testmail.com',
-  password: 'password12345'
-});
+  var eli = await User.create({
+    firstName: 'Elijah',
+    lastName: 'Holt',
+    username: 'Ej',
+    email: 'eholt@testmail.com',
+    password: 'password12345'
+  });
 
-console.log('users seeded');
+  console.log('users seeded');
+  console.log(products[0].thoughts)
+  await Product.findOneAndUpdate(
+    { _id: products[0]._id },
+    { $addToSet: { thoughts: { thoughtText: "meow", username: pam.username, rating: 5 } } },
+    { new: true, runValidators: true },
 
-await Product.findOneAndUpdate(
-  { _id: products[0]._id },
-  { $addToSet: { thoughts: { thoughtText: "meow", username: pam.username } } },
-  { new: true, runValidators: true }
-);
-process.exit();
+  );
+  process.exit();
+  console.log(products[0]._id)
 });

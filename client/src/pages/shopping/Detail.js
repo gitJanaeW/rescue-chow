@@ -12,7 +12,7 @@ import {
 import { QUERY_PRODUCTS } from '../../utils/shopping/queries';
 import { idbPromise, getProceeds } from '../../utils/helpers';
 import spinner from '../../assets/spinner.gif';
-
+import Rate from '../../components/Rate'
 import ThoughtForm from "../../components/ThoughtForm";
 
 function Detail() {
@@ -24,7 +24,7 @@ function Detail() {
   const { loading, data } = useQuery(QUERY_PRODUCTS);
   const { products, cart } = state;
   const [rating, setRating] = useState(0);
-
+  console.log(currentProduct.thoughts)
   useEffect(() => {
     // already in global store
     if (data && data.products && data.products.length) {
@@ -81,7 +81,6 @@ function Detail() {
          hover:outline-black ">Out of stock</button> </div>}
 
           </p>
-
           <ThoughtForm></ThoughtForm>
           {currentProduct.thoughts &&
             <div>
@@ -89,6 +88,7 @@ function Detail() {
               {currentProduct.thoughts.map((e) => {
                 return (
                   <div>
+                    <div><Rate rating={e.rating}></Rate></div>
                     <h1> Username: {e.username}</h1>
                     <p>Comment:{e.thoughtText}</p>
                   </div>)

@@ -32,8 +32,8 @@ const resolvers = {
         const product = await stripe.products.create({
           name: prodLines[i].name,
           description: prodLines[i].description,
-          website: prodLines[i].website,
-          images: [`${url}/images/${prodLines[i].image}`]
+          // website: prodLines[i].website,
+          // images: [`${url}/images/${prodLines[i].image}`]
         });
 
         // generate price id using the product id
@@ -119,13 +119,13 @@ const resolvers = {
           path: 'orders.products',
           populate: 'prodId'
         });
-          user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
-  
-          return user;
+        user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
+
+        return user;
       }
 
       throw new AuthenticationError('Not logged in');
-      
+
     },
 
     user: async (parent, args, context) => {
@@ -227,11 +227,11 @@ const resolvers = {
 
       return { token, user };
     },
-    addThought: async (parent, { product, thoughtText }, context) => {
+    addThought: async (parent, { product, thoughtText, rating }, context) => {
       if (context.user) {
         const updatedProduct = await Product.findOneAndUpdate(
           { _id: product },
-          { $push: { thoughts: { thoughtText, username: context.user.username } } },
+          { $push: { thoughts: { thoughtText, username: context.user.username, rating } } },
           { new: true, runValidators: true }
         );
 

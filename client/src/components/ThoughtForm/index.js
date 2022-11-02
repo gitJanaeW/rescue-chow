@@ -42,7 +42,7 @@ const ThoughtForm = ({ }) => {
 
         try {
             await addThought({
-                variables: { product, thoughtText },
+                variables: { product, thoughtText, rating },
             });
 
             console.log("hi")
@@ -61,7 +61,7 @@ const ThoughtForm = ({ }) => {
                 className={`m-0 ${characterCount === 280 || error ? 'text-error' : ''}`}
             >
                 Leave A Review!
-                hi    <Rate rating={rating} onRating={rate => setRating(rate)}></Rate>
+                <Rate rating={rating} onRating={rate => setRating(rate)}></Rate>
                 Character Count: {characterCount}/280
                 {error && <span className="ml-2">Something went wrong...</span>}
             </p>

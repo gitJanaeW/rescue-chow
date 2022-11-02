@@ -15,6 +15,7 @@ export const QUERY_PRODUCTS = gql`
         thoughtText
         createdAt
         username
+        rating
       }
       category {
         _id
@@ -50,6 +51,7 @@ export const QUERY_ALL_PRODUCTS = gql`
         thoughtText
         createdAt
         username
+        rating
       }
     }
   }
@@ -76,6 +78,7 @@ query user($username: String!) {
         thoughtText
         createdAt
         username
+        rating
       }
       orders {
         _id
@@ -117,13 +120,7 @@ export const QUERY_ME = gql`
         _id
         thoughtText
         createdAt
-        reactionCount
-        reactions {
-          _id
-          createdAt
-          reactionBody
-          username
-        }
+       rating
       }
     }
   }
