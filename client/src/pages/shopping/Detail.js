@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { useLazyQuery, useQuery } from '@apollo/client';
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useLazyQuery, useQuery } from "@apollo/client";
 
-import Cart from '../../components/shopping/Cart';
-import { useStoreContext } from '../../utils/shopping/GlobalState';
+import Cart from "../../components/shopping/Cart";
+import { useStoreContext } from "../../utils/shopping/GlobalState";
 import {
   REMOVE_FROM_CART,
   UPDATE_CART_QUANTITY,
   ADD_TO_CART,
-  UPDATE_PRODUCTS,
+
 } from '../../utils/shopping/actions';
 import { QUERY_PRODUCTS } from '../../utils/shopping/queries';
 import { idbPromise, getProceeds } from '../../utils/helpers';
 import spinner from '../../assets/spinner.gif';
+
 import ThoughtForm from "../../components/ThoughtForm";
 
 function Detail() {
@@ -28,7 +29,6 @@ function Detail() {
     // already in global store
     if (data && data.products && data.products.length) {
       setCurrentProduct(data.products.find((product) => product._id === id));
-
     }
   }, [products, data, loading, dispatch, id]);
 
@@ -41,7 +41,7 @@ function Detail() {
         _id: id,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
       });
-      idbPromise('cart', 'put', {
+      idbPromise("cart", "put", {
         ...itemInCart,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
       });
@@ -50,7 +50,7 @@ function Detail() {
         type: ADD_TO_CART,
         product: { ...currentProduct, purchaseQuantity: 1 },
       });
-      idbPromise('cart', 'put', { ...currentProduct, purchaseQuantity: 1 });
+      idbPromise("cart", "put", { ...currentProduct, purchaseQuantity: 1 });
     }
 
   };
@@ -60,9 +60,7 @@ function Detail() {
       type: REMOVE_FROM_CART,
       _id: currentProduct._id,
     });
-
     idbPromise('cart', 'delete', { ...currentProduct });
-
   };
 
   return (
@@ -76,7 +74,7 @@ function Detail() {
           <p>{currentProduct.description}</p>
 
           <p>
-            <strong>Price:</strong>${currentProduct.price}{' '}
+            <strong>Price:</strong>${currentProduct.price}{" "}
             <span>(${getProceeds(currentProduct.price)} to charity)</span>
             <button onClick={addToCart}>Add to Cart</button>
             <button
@@ -86,7 +84,6 @@ function Detail() {
               Remove from Cart
             </button>
           </p>
-
           <img
             src={`/images/shopping/${currentProduct.image}`}
             alt={currentProduct.name}
