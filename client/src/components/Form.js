@@ -63,11 +63,9 @@ function RescueForm() {
     }
   }, [checkoutData, loading, dispatch]);
 
-
   function filterProducts() {
     if (!currentCategory) {
       return state.products;
-
     }
     return state.products.filter(
       (product) => product.category._id === currentCategory
@@ -109,11 +107,7 @@ function RescueForm() {
                   htmlFor={product.name}
                   className="select-none font-medium text-gray-700"
                 >
-                  {product.name}
-                  {product.website}
-                  {product.description}
-                  {console.log(product)}
-
+                  <a href="/find-a-rescue">{product.name}</a>
                 </label>
               </div>
               <div className="ml-3 flex h-5 items-center">
@@ -130,7 +124,7 @@ function RescueForm() {
         )}
       </div>
       <div className="flex justify-center align-center">
-      {window.location.pathname === "/shop" ? (
+        {window.location.pathname === "/shop" ? (
           <button
             onClick={submitCheckout}
             type="submit"
@@ -138,7 +132,7 @@ function RescueForm() {
           >
             Proceed To Checkout
           </button>
-      ): null}
+        ) : null}
       </div>
     </div>
   );

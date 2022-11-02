@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useStoreContext } from "../utils/shopping/GlobalState";
 import { UPDATE_PRODUCTS } from "../utils/shopping/actions";
 import { useQuery } from "@apollo/client";
 import { QUERY_PRODUCTS, QUERY_CHECKOUT } from "../utils/shopping/queries";
 import { idbPromise } from "../utils/helpers";
 import { useLazyQuery } from "@apollo/client";
-import {
-  ADD_MULTIPLE_TO_CART,
-  ADD_RESCUE_CHECKOUT,
-  TOGGLE_CART,
-} from "../utils/shopping/actions";
+import { ADD_MULTIPLE_TO_CART } from "../utils/shopping/actions";
 import { loadStripe } from "@stripe/stripe-js";
 
 const stripePromise = loadStripe(
@@ -22,8 +18,8 @@ function FindARescue() {
   const { currentCategory } = state;
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
-  const [radio, setRadio] = useState("None");
-  const [getCheckout, { checkoutData }] = useLazyQuery(QUERY_CHECKOUT);
+
+  const [{ checkoutData }] = useLazyQuery(QUERY_CHECKOUT);
 
   useEffect(() => {
     if (data) {
@@ -63,35 +59,15 @@ function FindARescue() {
     }
   }, [checkoutData, loading, dispatch]);
 
-
   function filterProducts() {
     if (!currentCategory) {
       return state.products;
-
     }
     return state.products.filter(
       (product) => product.category._id === currentCategory
     );
   }
 
-  function submitCheckout(e) {
-    e.preventDefault();
-    const productIds = [];
-    dispatch({
-      type: ADD_RESCUE_CHECKOUT,
-      selectedRescueValue: radio,
-    });
-    dispatch({ type: TOGGLE_CART });
-    state.cart.forEach((item) => {
-      for (let i = 0; i < item.purchaseQuantity; i++) {
-        productIds.push(item._id);
-      }
-    });
-
-    getCheckout({
-      variables: { products: productIds },
-    });
-  }
   return (
     <div className="flex justify-center align-center">
       <legend className="text-lg font-medium text-gray-900">Our Rescues</legend>
@@ -101,9 +77,10 @@ function FindARescue() {
             <div className="relative flex items-start py-4">
               <div className="min-w-0 flex-1 text-sm">
                 <p className="select-none font-medium text-gray-700">
-                  {product.name}
-                  {product.website}
-                  {product.description}
+                  <a href={product.website} target="_blank" rel="noreferrer">
+                    {product.name}
+                  </a>
+                  <p>{product.description}</p>
                 </p>
               </div>
             </div>
