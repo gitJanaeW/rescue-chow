@@ -49,11 +49,11 @@ function ProductItem(item) {
         </div>
         <div className="relative mt-4">
           <h3 className="text-sm font-medium text-gray-900">{name}</h3>
-          {quantity && (
+          {quantity ? (
             <p className="mt-1 text-sm text-gray-500">
               {quantity} {pluralize("item", quantity)} in stock
             </p>
-          )}
+          ) : "Sorry! Out of stock"}
           {price && (
             <p className="mt-1 text-sm text-gray-500 font-semibold">
               ${getProceeds(price)} of this item goes to the charity You choose!
@@ -70,8 +70,9 @@ function ProductItem(item) {
           )}
         </div>
       </div>
-      <Link to={`/products/${_id}`}>view item</Link>
-      {price && (
+      <Link to={`/products/${_id}`}>View Item </Link>
+
+      {price && quantity ? (
         <div className="mt-6 flex items-center justify-center">
           <button
             type="button"
@@ -81,7 +82,10 @@ function ProductItem(item) {
             Add to bag
           </button>
         </div>
-      )}
+      ) : <div className="mt-6 flex items-center justify-center">
+        <button type="button" className="rounded-md relative w-11/12  py-2 px-8 outline outline-gray-400  outline-1
+         bg-gray-100 text-red-600 hover:bg-red-600 hover:text-black hover:outline hover:outline-2 
+         hover:outline-black ">Out of stock</button> </div>}
     </div>
   );
 }

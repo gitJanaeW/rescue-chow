@@ -55,20 +55,16 @@ function Detail() {
 
   };
 
-  const removeFromCart = () => {
-    dispatch({
-      type: REMOVE_FROM_CART,
-      _id: currentProduct._id,
-    });
-    idbPromise('cart', 'delete', { ...currentProduct });
-  };
 
   return (
     <>
       {currentProduct && cart ? (
         <div className="container my-1">
-          <Link to="/">← Back to Products</Link>
-
+          <Link to="/shop">← Back to Products</Link>
+          <img
+            src={`/images/shopping/${currentProduct.image}`}
+            alt={currentProduct.name}
+          />
           <h2>{currentProduct.name}</h2>
 
           <p>{currentProduct.description}</p>
@@ -76,18 +72,16 @@ function Detail() {
           <p>
             <strong>Price:</strong>${currentProduct.price}{" "}
             <span>(${getProceeds(currentProduct.price)} to charity)</span>
-            <button onClick={addToCart}>Add to Cart</button>
-            <button
-              disabled={!cart.find((p) => p._id === currentProduct._id)}
-              onClick={removeFromCart}
-            >
-              Remove from Cart
-            </button>
+            {currentProduct.price && currentProduct.quantity ? (
+              <div>
+                <button onClick={addToCart}>Add to Cart</button>
+              </div>) : <div className="mt-6 flex items-center justify-center">
+              <button type="button" className="rounded-md relative w-11/12  py-2 px-8 outline outline-gray-400  outline-1
+         bg-gray-100 text-red-600 hover:bg-red-600 hover:text-black hover:outline hover:outline-2 
+         hover:outline-black ">Out of stock</button> </div>}
+
           </p>
-          <img
-            src={`/images/shopping/${currentProduct.image}`}
-            alt={currentProduct.name}
-          />
+
           <ThoughtForm></ThoughtForm>
           {currentProduct.thoughts &&
             <div>
