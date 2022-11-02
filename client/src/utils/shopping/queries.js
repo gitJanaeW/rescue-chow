@@ -22,45 +22,6 @@ export const QUERY_PRODUCTS = gql`
     }
   }
 `;
-export const QUERY_THOUGHTS = gql`
-  query thoughts($username: String) {
-    thoughts(username: $username) {
-      _id
-      thoughtText
-      createdAt
-      username
-      reactionCount
-      products {
-        _id
-      }
-      reactions {
-        _id
-        createdAt
-        username
-        reactionBody
-      }
-    }
-  }
-`;
-
-export const QUERY_THOUGHT = gql`
-  query thought($id: ID!) {
-    thought(_id: $id) {
-      _id
-      thoughtText
-      createdAt
-      username
-      reactionCount
-      reactions {
-        _id
-        createdAt
-        username
-        reactionBody
-      }
-    }
-  }
-`;
-
 
 
 export const QUERY_CHECKOUT = gql`
@@ -81,6 +42,12 @@ export const QUERY_ALL_PRODUCTS = gql`
       quantity
       category {
         name
+      }
+      thoughts {
+        _id
+        thoughtText
+        createdAt
+        username
       }
     }
   }

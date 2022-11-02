@@ -14,7 +14,7 @@ const typeDefs = gql`
     quantity: Int
     price: Float
     category: Category
-    thoughts: Thought
+    thoughts: [Thought]
   }
 
   type Order {
@@ -38,8 +38,6 @@ const typeDefs = gql`
     thoughtText: String
     createdAt: String
     username: String
-    reactionCount: Int
-    reactions: [Reaction]
   }
 
   type Rescue {
@@ -47,13 +45,6 @@ const typeDefs = gql`
     name: String
     website: String
     amountOwed: Int
-  }
-
-  type Reaction {
-    _id: ID
-    reactionBody: String
-    createdAt: String
-    username: String
   }
 
 
@@ -101,15 +92,13 @@ const typeDefs = gql`
 
   type Query {
     categories: [Category]
-    products(category: ID, name: String, thoughts: ID): [Product]
+    products(category: ID, name: String): [Product]
     product(_id: ID!): Product
     user(username: String!): User    
     users: [User]
     order(_id: ID!): Order
     checkout(products: [LineItem]!): Checkout
     rescues: [Rescue]
-    thoughts(username: String, Product: ID): [Thought]
-    thought(_id: ID!): Thought
   }
 
   type Mutation {
@@ -118,9 +107,8 @@ const typeDefs = gql`
     checkout(products: [ID]!): Checkout
     addOrder(products: [ID]!): Order
     updateUser(firstName: String, lastName: String, username: String, email: String, password: String): User
-    updateProduct(_id: ID!, quantity: Int!, thoughts: String): Product
-    addThought(thoughtText: String!): Thought
-    addReaction(thoughtId: ID!, reactionBody: String!): Thought
+    updateProduct(_id: ID!, quantity: Int!): Product
+    addThought(product: ID, thoughtText: String!): Product
     login(email: String!, password: String!): Auth
     addRescue(name: String!, website: String, amountOwed: Int!): Rescue
   }

@@ -1,9 +1,13 @@
-const db = require("./connections");
-const { User } = require("../models");
-const { Product, Category, Thought } = require("../models");
+
+const db = require('./connections');
+const { User, Product, Category } = require('../models');
+
+
 
 db.once("open", async () => {
   await Category.deleteMany();
+  await Product.deleteMany();
+  await User.deleteMany();
 
   const categories = await Category.insertMany([
     { name: "Cat Treats" },
@@ -12,8 +16,6 @@ db.once("open", async () => {
   ]);
 
   console.log("categories seeded");
-
-  await Product.deleteMany();
 
   const products = await Product.insertMany([
     {
@@ -24,6 +26,7 @@ db.once("open", async () => {
       category: categories[0]._id,
       price: -9.99,
       quantity: 1,
+
     },
     {
       name: "Beef Chews 100g",
@@ -102,41 +105,33 @@ db.once("open", async () => {
     },
   ]);
 
-  console.log("products seeded");
+  console.log('seeded');
 
-  const thoughts = await Thought.insertMany([
-    {
-      thoughtText: "molestiae dicta voluptas ut iusto et hic nam",
-      firstName: "Pamela",
-    },
-  ]);
 
-  console.log("products seeded");
-  console.log("thoughts seeded");
-  console.log(thoughts);
-  await User.deleteMany();
-
-  await User.create({
-    firstName: "Pamela",
-    lastName: "Washington",
-    email: "pamela@testmail.com",
-    password: "password12345",
+  var pam = await User.create({
+    firstName: 'Pamela',
+    lastName: 'Washington',
+    username: 'Pamela',
+    email: 'pamela@testmail.com',
+    password: 'password12345',
     orders: [
-      {
-        products: [products[0]._id, products[0]._id, products[1]._id],
-      },
     ],
-    thoughts: [thoughts[0]],
   });
 
-  await User.create({
-    firstName: "Elijah",
-    lastName: "Holt",
-    email: "eholt@testmail.com",
-    password: "password12345",
+  var eli = await User.create({
+    firstName: 'Elijah',
+    lastName: 'Holt',
+    username: 'Ej',
+    email: 'eholt@testmail.com',
+    password: 'password12345'
   });
 
-  console.log("users seeded");
+  console.log('users seeded');
 
+  await Product.findOneAndUpdate(
+    { _id: products[0]._id },
+    { $addToSet: { thoughts: { thoughtText: "meow", username: pam.username } } },
+    { new: true, runValidators: true }
+  );
   process.exit();
 });

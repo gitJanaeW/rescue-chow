@@ -8,11 +8,12 @@ import {
   REMOVE_FROM_CART,
   UPDATE_CART_QUANTITY,
   ADD_TO_CART,
-  UPDATE_PRODUCTS,
-} from "../../utils/shopping/actions";
-import { QUERY_PRODUCTS, QUERY_THOUGHTS } from "../../utils/shopping/queries";
-import { idbPromise, getProceeds } from "../../utils/helpers";
-import spinner from "../../assets/spinner.gif";
+
+} from '../../utils/shopping/actions';
+import { QUERY_PRODUCTS } from '../../utils/shopping/queries';
+import { idbPromise, getProceeds } from '../../utils/helpers';
+import spinner from '../../assets/spinner.gif';
+
 import ThoughtForm from "../../components/ThoughtForm";
 
 function Detail() {
@@ -22,42 +23,15 @@ function Detail() {
   const [currentProduct, setCurrentProduct] = useState({});
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
-  const [getThought, thoughtData] = useLazyQuery(QUERY_THOUGHTS);
-  console.log(data);
   const { products, cart } = state;
 
   useEffect(() => {
     // already in global store
-    if (products.length) {
-      setCurrentProduct(products.find((product) => product._id === id));
-      async function getThoughtAsync() {
-        await getThought({ variables: { product: id } });
-        // console.log({ thoughtData })
-      }
-      getThoughtAsync();
-    }
-
-    // retrieved from server
-    else if (data) {
-      dispatch({
-        type: UPDATE_PRODUCTS,
-        products: data.products,
-      });
-
-      data.products.forEach((product) => {
-        idbPromise("products", "put", product);
-      });
-    }
-    // get cache from idb
-    else if (!loading) {
-      idbPromise("products", "get").then((indexedProducts) => {
-        dispatch({
-          type: UPDATE_PRODUCTS,
-          products: indexedProducts,
-        });
-      });
+    if (data && data.products && data.products.length) {
+      setCurrentProduct(data.products.find((product) => product._id === id));
     }
   }, [products, data, loading, dispatch, id]);
+
 
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === id);
@@ -78,6 +52,7 @@ function Detail() {
       });
       idbPromise("cart", "put", { ...currentProduct, purchaseQuantity: 1 });
     }
+
   };
 
   const removeFromCart = () => {
@@ -85,8 +60,7 @@ function Detail() {
       type: REMOVE_FROM_CART,
       _id: currentProduct._id,
     });
-
-    idbPromise("cart", "delete", { ...currentProduct });
+    idbPromise('cart', 'delete', { ...currentProduct });
   };
 
   return (
@@ -110,12 +84,22 @@ function Detail() {
               Remove from Cart
             </button>
           </p>
-
           <img
             src={`/images/shopping/${currentProduct.image}`}
             alt={currentProduct.name}
           />
           <ThoughtForm></ThoughtForm>
+          {currentProduct.thoughts &&
+            <div>
+              Reviews:
+              {currentProduct.thoughts.map((e) => {
+                return (
+                  <div>
+                    <h1> Username: {e.username}</h1>
+                    <p>Comment:{e.thoughtText}</p>
+                  </div>)
+              })}
+            </div>}
         </div>
       ) : null}
       {loading ? <img src={spinner} alt="loading" /> : null}
