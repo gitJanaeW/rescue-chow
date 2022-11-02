@@ -58,6 +58,7 @@ db.once("open", async () => {
     {
       name: "All Paws Matter",
       website: "https://www.apmrescue.com/",
+      description: "i am all paws matter",
       category: categories[2]._id,
       price: 0,
     },

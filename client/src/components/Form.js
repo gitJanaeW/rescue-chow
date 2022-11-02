@@ -111,6 +111,9 @@ function RescueForm() {
                   className="select-none font-medium text-gray-700"
                 >
                   {product.name}
+                  {product.description}
+                  {product.website}
+                  <p>{console.log(product)}</p>
                 </label>
               </div>
               <div className="ml-3 flex h-5 items-center">

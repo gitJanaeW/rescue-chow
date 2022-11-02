@@ -9,6 +9,7 @@ export const QUERY_PRODUCTS = gql`
       price
       quantity
       image
+      website
       thoughts {
         _id
         thoughtText
@@ -40,6 +41,7 @@ export const QUERY_ALL_PRODUCTS = gql`
       description
       price
       quantity
+      website
       category {
         name
       }
@@ -82,6 +84,7 @@ query user($username: String!) {
           _id
           name
           description
+          website
           price
           quantity
           image
