@@ -6,44 +6,6 @@ import heartPaw from "../assets/icons8-heart-with-dog-paw-64.png";
 const WhoWeAre = () => {
   return (
     <div className="bg-who-section bg-cover bg-fixed divide-y-2 divide-slate-400/25 divide-solid">
-      {/* 
-      <div>
-        
-        <h3>Search Our List of Rescues in Need...</h3>
-       
-        <p>Register ►</p>
-        <h3>Orders Treats...</h3>
-        <Link to="/order-now">Order Now ►</Link>
-        <h3>25% Goes Directly To The Chosen Rescue...</h3>
-        
-      </div>
-      <div>
-        <h2>
-          "There has to be a way to raise money for the many integral rescues
-          that are in such dire need."
-        </h2>
-        <p>
-          The founder of Barnies Horse and Pet, Terasa Hill, started Rescue Chow
-          Pet Food Bank in Whitby On, to help animals in need. She has partnered
-          and supported many rescues and charities across the country. ”There
-          has to be a way to raise money for the many integral rescues that are
-          in need“ she is quoted. She and her team are dedicated in their quest
-          and quietly continue to do what they can, to make a difference in the
-          lives of animals each and every day. Rescue Chow Pet Foodbank is still
-          operational, and feeds over 500 animals each month, in the Durham
-          Region including British Columbia, Ontario, and Quebec.
-        </p>
-      </div>
-      <div>
-        <h1>Order Today</h1>
-        <p>
-          On average $2.50 goes towards helping animals in rescue within our
-          community.
-        </p>
-        <button>
-          <Link to="/shop">Order Now ►</Link>
-        </button>
-      </div> */}
       <header className="bg-rescue-paws bg-center pb-24 pt-20  contrast-100   ">
         <div className="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8 flex items-center justify-start"></div>
 

@@ -1,6 +1,7 @@
-import React from "react";
+import { useState, React } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import Cart from "./components/shopping/Cart";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import WhoWeAre from "./pages/WhoWeAre";
@@ -23,6 +24,7 @@ import { StoreProvider } from "./utils/shopping/GlobalState";
 import Success from "./pages/shopping/Success";
 import OrderHistory from "./pages/shopping/OrderHistory";
 import Nav from "./components/Nav";
+
 // import ChooseARescue from "./pages/shopping/ChooseRescue";
 
 const httpLink = createHttpLink({
@@ -45,12 +47,14 @@ const client = new ApolloClient({
 });
 
 function App() {
+  const [open, setOpen] = useState(true);
   return (
     <ApolloProvider client={client}>
       <Router>
         <div>
           <StoreProvider>
-            <Nav />
+            <Nav setOpen={setOpen} />
+            <Cart setOpen={setOpen} open={open} />
 
             <Routes>
               <Route path="/" element={<Home />} />
