@@ -9,9 +9,7 @@ import {
 
 function ProductItem(item) {
   const [state, dispatch] = useStoreContext();
-
   const { image, name, _id, price, quantity } = item;
-
   const { cart } = state;
 
   const addToCart = () => {
@@ -53,7 +51,9 @@ function ProductItem(item) {
             <p className="mt-1 text-sm text-gray-500">
               {quantity} {pluralize("item", quantity)} in stock
             </p>
-          ) : "Sorry! Out of stock"}
+          ) : (
+            "Sorry! Out of stock"
+          )}
           {price && (
             <p className="mt-1 text-sm text-gray-500 font-semibold">
               ${getProceeds(price)} of this item goes to the charity You choose!
@@ -82,10 +82,18 @@ function ProductItem(item) {
             Add to bag
           </button>
         </div>
-      ) : <div className="mt-6 flex items-center justify-center">
-        <button type="button" className="rounded-md relative w-11/12  py-2 px-8 outline outline-gray-400  outline-1
+      ) : (
+        <div className="mt-6 flex items-center justify-center">
+          <button
+            type="button"
+            className="rounded-md relative w-11/12  py-2 px-8 outline outline-gray-400  outline-1
          bg-gray-100 text-red-600 hover:bg-red-600 hover:text-black hover:outline hover:outline-2 
-         hover:outline-black ">Out of stock</button> </div>}
+         hover:outline-black "
+          >
+            Out of stock
+          </button>{" "}
+        </div>
+      )}
     </div>
   );
 }

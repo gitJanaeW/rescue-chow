@@ -1,9 +1,8 @@
 import React from "react";
 import ProductList from "../components/shopping/ProductList";
 import CategoryMenu from "../components/shopping/CategoryMenu";
-
 import ChooseARescue from "./shopping/ChooseRescue";
-import FindaRescue from "./FindARescue";
+
 const OrderNow = () => {
   return (
     <div>

@@ -37,7 +37,7 @@ const CartItem = ({ item }) => {
   return (
     <li>
       <div className="group relative flex items-center justify-between w-10/12  py-6">
-        <a href="#" className=" block  py-1 pl-3 ">
+        <a href={`/products/${item._id}`} className=" block  py-1 pl-3 ">
           <div
             className="absolute inset-0 group-hover:bg-gray-50"
             aria-hidden="true"

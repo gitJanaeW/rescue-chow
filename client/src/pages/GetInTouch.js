@@ -4,7 +4,7 @@ import { captializeFirstChar, validateEmail } from "../utils/helpers";
 const GetInTouch = () => {
   const [emailObj, setEmailObj] = useState();
   const [errorMsg, setErrorMsg] = useState();
-  // check for live changes to the state of the form
+
   const getEmailState = (e) => {
     if (e.target.name === "email") {
       const isValid = validateEmail(e.target.value);
@@ -67,7 +67,6 @@ const GetInTouch = () => {
             <form className="w-1/3" onSubmit={logEmail}>
               <div>
                 <div className="align">
-                  {/* name */}
                   <label htmlFor="name">Name:</label>
                   <input
                     className="block w-10/12 bg-gray-100 rounded-md border-gray-300 outline outline-1 outline-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -77,7 +76,6 @@ const GetInTouch = () => {
                   />
                 </div>
                 <div className="align">
-                  {/* email */}
                   <label htmlFor="email">Email:</label>
                   <input
                     className="block w-10/12 bg-gray-100  rounded-md border-gray-300 outline outline-1 outline-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
@@ -87,7 +85,6 @@ const GetInTouch = () => {
                   />
                 </div>
                 <div>
-                  {/* message */}
                   <label htmlFor="message">Message</label>
                   <br />
                   <textarea

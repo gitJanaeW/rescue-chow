@@ -1,13 +1,11 @@
 import React from "react";
-import {useQuery} from '@apollo/client';
 import Auth from "../utils/shopping/auth";
-import {QUERY_USER} from '../utils/shopping/queries';
 import Img from "../assets/favicon.ico";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import dropdownImg from "../assets/icons8-double-down-50.png";
-import { idbPromise } from '../utils/helpers';
+import { idbPromise } from "../utils/helpers";
 import { useStoreContext } from "../utils/shopping/GlobalState";
 import { TOGGLE_CART } from "../utils/shopping/actions";
 
@@ -28,17 +26,17 @@ let userNavigation = [];
 
 function Logout() {
   async function clearCart() {
-    const cart = await idbPromise('cart', 'get');
+    const cart = await idbPromise("cart", "get");
     if (cart.length) {
       cart.forEach((item) => {
-        idbPromise('cart', 'delete', item);
+        idbPromise("cart", "delete", item);
       });
     }
     setTimeout(() => {
-      window.location.assign('/');
+      window.location.assign("/");
     }, 3000);
   }
-  
+
   clearCart();
   Auth.logout();
 }

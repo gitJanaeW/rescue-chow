@@ -22,12 +22,6 @@ const Cart = (props) => {
   const [state, dispatch] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
 
-  const toLocalStorage = () => {
-    state.cart.forEach((item) => {
-      localStorage.setItem("cartItems", item);
-    });
-  }
-
   useEffect(() => {
     if (data) {
       stripePromise.then((res) => {
