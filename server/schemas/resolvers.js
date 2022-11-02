@@ -112,6 +112,21 @@ const resolvers = {
         .populate('thoughts');
     },
 
+    userOrderHistory: async (parent, args, context) => {
+      if (context.user) { //context.user
+        const user = await User.findById(context.user).populate({ //
+          path: 'orders.products',
+          populate: 'prodId'
+        });
+          user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
+  
+          return user;
+      }
+
+      throw new AuthenticationError('Not logged in');
+      
+    },
+
     user: async (parent, args, context) => {
       if (context.user) { //context.user
         const user = await User.findById(context.user).populate({ //context.user
