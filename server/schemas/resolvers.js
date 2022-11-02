@@ -32,8 +32,9 @@ const resolvers = {
         const product = await stripe.products.create({
           name: prodLines[i].name,
           description: prodLines[i].description,
-          website: prodLines[i].website,
-          images: [`${url}/images/${prodLines[i].image}`]
+
+          //images: [`${url}/images/${prodLines[i].image}`]
+
         });
 
         // generate price id using the product id
@@ -111,6 +112,21 @@ const resolvers = {
       return await Product.findById(_id)
         .populate('category')
         .populate('thoughts');
+    },
+
+    userOrderHistory: async (parent, args, context) => {
+      if (context.user) { //context.user
+        const user = await User.findById(context.user).populate({ //
+          path: 'orders.products',
+          populate: 'prodId'
+        });
+          user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
+  
+          return user;
+      }
+
+      throw new AuthenticationError('Not logged in');
+      
     },
 
     user: async (parent, args, context) => {
