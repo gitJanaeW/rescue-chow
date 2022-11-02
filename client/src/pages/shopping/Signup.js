@@ -52,53 +52,53 @@ function Signup(props) {
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
-                <label htmlFor="first-name" className="sr-only">
+                <label htmlFor="firstName" className="sr-only">
                   First Name
                 </label>
                 <input
-                  id="first-name"
-                  name="firstname"
-                  type="firstname"
+                  id="firstName"
+                  name="firstName"
+                  type="firstName"
                   className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="First Name"
                   onChange={handleChange}
                 />
               </div>
               <div>
-                <label htmlFor="last-name" className="sr-only">
+                <label htmlFor="lastName" className="sr-only">
                   Last Name
                 </label>
                 <input
-                  id="last-name"
-                  name="lastname"
-                  type="lastname"
+                  id="lastName"
+                  name="lastName"
+                  type="lastName"
                   className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Last Name"
                   onChange={handleChange}
                 />
               </div>
               <div>
-                <label htmlFor="email-address" className="sr-only">
+                <label htmlFor="email" className="sr-only">
                   Email address
                 </label>
                 <input
-                  id="email-address"
+                  id="email"
                   name="email"
                   type="email"
-                  required
                   className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Email address"
                   onChange={handleChange}
                 />
               </div>
               <div>
-                <label htmlFor="user-name" className="sr-only">
+                <label htmlFor="username" className="sr-only">
                   User Name
                 </label>
                 <input
-                  id="user-Name"
+                  id="username"
                   name="username"
                   type="username"
+                  onChange={handleChange}
                   className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="User Name"
                 />
@@ -111,8 +111,7 @@ function Signup(props) {
                   id="password"
                   name="password"
                   type="password"
-                  autoComplete="current-password"
-                  required
+                  onChange={handleChange}
                   className="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   placeholder="Password"
                 />
@@ -141,7 +140,7 @@ function Signup(props) {
                 type="submit"
                 className="group relative flex w-full justify-center rounded-md border border-transparent bg-red-400 py-2 px-4 text-sm font-medium text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
-                Sign in
+                Sign up
               </button>
             </div>
           </form>
