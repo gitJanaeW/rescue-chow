@@ -97,7 +97,6 @@ function RescueForm() {
       variables: { products: productIds },
     });
   }
-  console.log("HREF", window.location.pathname);
   return (
     <div>
       <legend className="text-lg font-medium text-gray-900">Our Rescues</legend>
