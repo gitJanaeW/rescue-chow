@@ -15,6 +15,12 @@ const Cart = () => {
   const [state, dispatch] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
 
+  const toLocalStorage = () => {
+    state.cart.forEach((item) => {
+      localStorage.setItem("cartItems", item);
+    });
+  }
+
   useEffect(() => {
     if (data) {
       stripePromise.then((res) => {
@@ -83,9 +89,10 @@ const Cart = () => {
       </div>
       <h2>Shopping Cart</h2>
       {state.cart.length ? (
-        <div>
+        <div onChange={toLocalStorage}>
           {state.cart.map((item) => (
             <CartItem key={item._id} item={item} />
+
           ))}
 
           <div className="flex-row space-between">

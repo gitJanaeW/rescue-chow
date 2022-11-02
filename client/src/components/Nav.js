@@ -1,5 +1,7 @@
 import React from "react";
+import {useQuery} from '@apollo/client';
 import Auth from "../utils/shopping/auth";
+import {QUERY_USER} from '../utils/shopping/queries';
 import Img from "../assets/favicon.ico";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
@@ -23,22 +25,21 @@ const navigation = [
 let userNavigation = [];
 
 function Logout() {
+  const {loading, data} = useQuery(QUERY_USER);
+  if (data) {
+    console.log("DATA", data);
+  }
+
   async function clearCart() {
     const cart = await idbPromise('cart', 'get');
-    // console.log(cart);
-    // const products = cart.map((product) => product._id);
-    // console.log("products", products);
-    // const quantity = cart.map((product) => product.qty);
-    // console.log("quantity", quantity);
     if (cart.length) {
       cart.forEach((item) => {
         idbPromise('cart', 'delete', item);
       });
     }
-
-    // setTimeout(() => {
-    //   window.location.assign('/');
-    // }, 3000);
+    setTimeout(() => {
+      window.location.assign('/');
+    }, 3000);
   }
   
   clearCart();
