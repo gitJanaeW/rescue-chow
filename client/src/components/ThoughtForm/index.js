@@ -63,7 +63,7 @@ const ThoughtForm = ({ }) => {
                 Leave A Review!
                 <Rate rating={rating} onRating={rate => setRating(rate)}></Rate>
                 Character Count: {characterCount}/280
-                {error && <span className="ml-2">Something went wrong...</span>}
+                {error && <span className="ml-2">Please log in to leave a review...</span>}
             </p>
             <form
                 className="flex-row justify-center justify-space-between-md align-stretch"
@@ -81,7 +81,7 @@ const ThoughtForm = ({ }) => {
                 </button>
             </form>
 
-            {error && <div>Something went wrong...</div>}
+            {error && <div>Please log in to leave a review...</div>}
         </div>
     );
 };
