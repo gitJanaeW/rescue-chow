@@ -32,9 +32,8 @@ const resolvers = {
         const product = await stripe.products.create({
           name: prodLines[i].name,
           description: prodLines[i].description,
-
-          //images: [`${url}/images/${prodLines[i].image}`]
-
+          website: prodLines[i].website,
+          images: [`${url}/images/${prodLines[i].image}`]
         });
 
         // generate price id using the product id
@@ -165,15 +164,6 @@ const resolvers = {
 
       throw new AuthenticationError('Not logged in');
     },
-
-    // thoughts: async (parent, { username }) => {
-    //   const params = username ? { username } : {};
-    //   return Thought.find(params).sort({ createdAt: -1 });
-    // },
-    // thought: async (parent, { _id }) => {
-    //   return Thought.findOne({ _id });
-    // }
-
   },
   Mutation: {
     addUser: async (parent, args) => {
@@ -237,22 +227,6 @@ const resolvers = {
 
       return { token, user };
     },
-
-    // addThought: async (parent, {product, thoughtText}, context) => {
-    //   if (context.user) {
-    //     const thought = await Thought.create({ ...args, username: context.user.username });
-
-    //     await Product.findByIdAndUpdate(
-    //       { _id: context.product._id },
-    //       { $push: { thoughts: thought._id } },
-    //       { new: true }
-    //     );
-
-    //     return thought;
-    //   }
-
-    //   throw new AuthenticationError('You need to be logged in!');
-    // },
     addThought: async (parent, { product, thoughtText }, context) => {
       if (context.user) {
         const updatedProduct = await Product.findOneAndUpdate(

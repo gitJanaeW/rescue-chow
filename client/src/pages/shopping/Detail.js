@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useLazyQuery, useQuery } from "@apollo/client";
-
 import Cart from "../../components/shopping/Cart";
 import { useStoreContext } from "../../utils/shopping/GlobalState";
 import {
@@ -24,6 +23,7 @@ function Detail() {
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
   const { products, cart } = state;
+  const [rating, setRating] = useState(0);
 
   useEffect(() => {
     // already in global store

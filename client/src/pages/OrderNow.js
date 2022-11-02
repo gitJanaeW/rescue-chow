@@ -3,13 +3,14 @@ import ProductList from "../components/shopping/ProductList";
 import CategoryMenu from "../components/shopping/CategoryMenu";
 
 import ChooseARescue from "./shopping/ChooseRescue";
+import FindaRescue from "./FindARescue";
 const OrderNow = () => {
   return (
     <div>
       <h2 className="text-center text-red-400 font-love text-9xl pt-10  font-medium">
         Order Now
       </h2>
-      <div className="container">
+      <div className="w-full">
         <CategoryMenu />
         <ProductList />
         <ChooseARescue />

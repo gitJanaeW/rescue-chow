@@ -4,6 +4,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { ADD_THOUGHT } from '../../utils/shopping/mutations'
 import { useStoreContext } from '../../utils/shopping/GlobalState';
 import { QUERY_PRODUCTS } from '../../utils/shopping/queries';
+import Rate from '../../components/Rate'
 
 const ThoughtForm = ({ }) => {
     const [thoughtText, setBody] = useState('');
@@ -11,6 +12,7 @@ const ThoughtForm = ({ }) => {
     const [addThought, { error }] = useMutation(ADD_THOUGHT);
     const [state, dispatch] = useStoreContext();
     const { id } = useParams();
+    const [rating, setRating] = useState(0);
 
     const [currentProduct, setCurrentProduct] = useState({});
 
@@ -59,6 +61,7 @@ const ThoughtForm = ({ }) => {
                 className={`m-0 ${characterCount === 280 || error ? 'text-error' : ''}`}
             >
                 Leave A Review!
+                hi    <Rate rating={rating} onRating={rate => setRating(rate)}></Rate>
                 Character Count: {characterCount}/280
                 {error && <span className="ml-2">Something went wrong...</span>}
             </p>
