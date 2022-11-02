@@ -97,9 +97,9 @@ function RescueForm() {
       variables: { products: productIds },
     });
   }
-
+  console.log("HREF", window.location.pathname);
   return (
-    <form>
+    <div>
       <legend className="text-lg font-medium text-gray-900">Our Rescues</legend>
       <div className="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
         {filterProducts().map((product) =>
@@ -127,15 +127,17 @@ function RescueForm() {
         )}
       </div>
       <div className="flex justify-center align-center">
-        <button
-          onClick={submitCheckout}
-          type="submit"
-          className="m-5 inline-flex items-center rounded-md border border-gray-400 bg-red-300 px-6 py-3 text-base font-medium text-gray-700 shadow-sm hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-        >
-          Proceed To Checkout
-        </button>
+      {window.location.pathname === "/shop" ? (
+          <button
+            onClick={submitCheckout}
+            type="submit"
+            className="m-5 inline-flex items-center rounded-md border border-gray-400 bg-red-300 px-6 py-3 text-base font-medium text-gray-700 shadow-sm hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+          >
+            Proceed To Checkout
+          </button>
+      ): null}
       </div>
-    </form>
+    </div>
   );
 }
 

@@ -58,22 +58,26 @@ db.once("open", async () => {
     {
       name: "All Paws Matter",
       website: "https://www.apmrescue.com/",
+      description: "Helloooo", 
       category: categories[2]._id,
       price: 0,
     },
     {
       name: "Scugog Pet Food Bank",
       website: "https://www.facebook.com/UxScPetFoodBank/",
+      description: "Helloooo",
       category: categories[2]._id,
       price: 0,
     },
     {
       name: "Rescue Chow Pet Food Bank Durham Region",
+      description: "Helloooo",
       category: categories[2]._id,
       price: 0,
     },
     {
       name: "Team Chelsea",
+      description: "Helloooo",
       website: "https://www.facebook.com/groups/165123396868018",
       category: categories[2]._id,
       price: 0,
@@ -81,18 +85,21 @@ db.once("open", async () => {
     {
       name: "Durham Humane Society",
       website: "http://www.hsdr.org/",
+      description: "Helloooo",
       category: categories[2]._id,
       price: 0,
     },
     {
       name: "Toronto Humane Society",
       website: "https://www.torontohumanesociety.com/",
+      description: "Helloooo",
       category: categories[2]._id,
       price: 0,
     },
     {
       name: "Jack Russell Terrier Rescue Ontario",
       website: "https://russellrescue.org/",
+      description: "Helloooo",
       category: categories[2]._id,
       price: 0,
     },
@@ -100,7 +107,8 @@ db.once("open", async () => {
       name: "Headwaters Pet Food Bank",
       website:
         "https://www.facebook.com/Headwaters-Pet-Food-Bank-2503362129697849/",
-      category: categories[2]._id,
+      description: "Helloooo",
+        category: categories[2]._id,
       price: 0,
     },
   ]);
