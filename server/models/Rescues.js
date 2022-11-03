@@ -27,10 +27,6 @@ const rescueSchema = new Schema(
     }
 );
 
-rescueSchema.virtual('supportersCount').get(function () {
-    // if user (with or without an account) supports this rescue, +1
-});
-
 const Rescues = model('Rescues', rescueSchema);
 
 module.exports = Rescues;

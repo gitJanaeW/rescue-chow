@@ -70,24 +70,6 @@ function FindARescue() {
   }
 
   return (
-    // <div className="flex justify-center align-center">
-    //   <legend className="text-lg font-medium text-gray-900">Our Rescues</legend>
-    //   <div className="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
-    //     {filterProducts().map((product) =>
-    //       product.category.name === "Rescues" ? (
-    //         <div className="relative flex items-start py-4">
-    //           <div className="min-w-0 flex-1 text-sm">
-    //             <p className="select-none font-medium text-gray-700">
-    //               {product.name}
-    //               {product.website}
-    //               {product.description}
-    //             </p>
-    //           </div>
-    //         </div>
-    //       ) : null
-    //     )}
-    //   </div>
-    // </div>
     <div className="bg-white">
       <div className="mx-auto max-w-2xl py-24 px-4 sm:px-6 sm:py-32 lg:max-w-7xl lg:px-8">
         <div className="mx-auto max-w-3xl text-center">

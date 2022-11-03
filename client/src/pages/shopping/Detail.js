@@ -76,28 +76,9 @@ function Detail() {
                 </h2>
                 <p className="mt-2 text-sm text-gray-500">
                   ${getProceeds(currentProduct.price)} of this items price goes
-                  to the charity of your choice.
+                  to your chosen charity.
                 </p>
               </div>
-
-              {/* <div>
-                <h3 className="sr-only">Reviews</h3>
-                <div className="flex items-center">
-                  {[0, 1, 2, 3, 4].map((rating) => (
-                    <StarIcon
-                      key={rating}
-                      className={classNames(
-                        rating.average > rating
-                          ? "text-yellow-400"
-                          : "text-gray-300",
-                        "h-5 w-5 flex-shrink-0"
-                      )}
-                      aria-hidden="true"
-                    />
-                  ))}
-                </div>
-                <p className="sr-only">{rating.average} out of 5 stars</p>
-              </div> */}
             </div>
 
             <p className="mt-6 text-gray-500">{currentProduct.description}</p>
