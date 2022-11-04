@@ -30,7 +30,10 @@ const userSchema = new Schema({
     required: true,
     minlength: 5
   },
-  orders: [Orders.schema],
+  orders: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Orders'
+  }],
 
   thoughts: [
     {

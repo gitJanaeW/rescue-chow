@@ -140,31 +140,44 @@ export const QUERY_ME_BASIC = gql`
 `;
 
 export const QUERY_USER_ORDER_HISTORY = gql`
-  query UserOrderHistory {
-    userOrderHistory {
+query UserOrderHistory {
+  userOrderHistory {
+    _id
+    firstName
+    lastName
+    username
+    email
+    orders {
       _id
-      firstName
-      lastName
-      email
-      orders {
-        _id
-        purchaseDate
-        products {
-          prodId {
+      purchaseDate
+      products {
+        prodId {
+          _id
+          name
+          description
+          image
+          quantity
+          price
+          category {
             _id
             name
-            description
-            image
-            quantity
-            price
-            category {
-              _id
-              name
-            }
           }
-          qnty
+          thoughts {
+            _id
+            thoughtText
+            createdAt
+            username
+          }
         }
+        qnty
       }
     }
+    thoughts {
+      _id
+      thoughtText
+      createdAt
+      username
+    }
   }
+}
 `;

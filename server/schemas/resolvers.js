@@ -118,19 +118,23 @@ const resolvers = {
     },
 
     userOrderHistory: async (parent, args, context) => {
-      if (context.user) {
-        //context.user
-        const user = await User.findById(context.user).populate({
-          //
-          path: "orders.products",
-          populate: "prodId",
+      if (context.user) { //context.user
+        const user = await User.findById(context.user).populate({ //
+          path: 'orders',
+          populate: {
+            path: 'products',
+            populate: {
+              path: 'prodId'
+            }
+          }
         });
-        user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
-
-        return user;
+          user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
+  
+          return user;
       }
 
-      throw new AuthenticationError("Not logged in");
+      throw new AuthenticationError('Not logged in');
+      
     },
 
     user: async (parent, args, context) => {
@@ -188,8 +192,9 @@ const resolvers = {
       });
       let order = new Orders();
       order.products = productsArray;
-      await User.findByIdAndUpdate(context.user._id, {
-        $push: { orders: order },
+      const savedOrder = await Orders.create(order);
+      await User.findByIdAndUpdate(context.user._id, { 
+        $push: { orders: savedOrder._id },
       });
       return order;
     },
