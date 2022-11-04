@@ -102,7 +102,6 @@ export const QUERY_RESCUES = gql`
       _id
       name
       website
-      amountOwed
     }
   }
 `;

@@ -9,7 +9,8 @@ import {
   UPDATE_CURRENT_CATEGORY,
   CLEAR_CART,
   TOGGLE_CART,
-  ADD_RESCUE_CHECKOUT
+  ADD_RESCUE_CHECKOUT,
+  UPDATE_RESCUES
 } from "./actions";
 
 export const reducer = (state, action) => {
@@ -85,7 +86,11 @@ export const reducer = (state, action) => {
         ...state,
         currentCategory: action.currentCategory
       }
-
+    case UPDATE_RESCUES:
+      return {
+        ...state,
+        rescues: [...action.rescues],
+      }
     default:
       return state;
   }

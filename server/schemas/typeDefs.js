@@ -45,7 +45,6 @@ const typeDefs = gql`
     _id: ID
     name: String
     website: String
-    amountOwed: Int
   }
 
 
@@ -112,7 +111,7 @@ const typeDefs = gql`
     updateProduct(_id: ID!, quantity: Int!): Product
     addThought(product: ID, thoughtText: String!): Product
     login(email: String!, password: String!): Auth
-    addRescue(name: String!, website: String, amountOwed: Int!): Rescue
+    addRescue(name: String!, website: String): Rescue
   }
 `;
 

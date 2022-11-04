@@ -21,6 +21,9 @@ const resolvers = {
     categories: async () => {
       return await Category.find();
     },
+    rescues: async () => {
+      return await Rescues.find();
+    },
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin; // https://localhost:3001 or new URL(context.headers.referer).origin;
 

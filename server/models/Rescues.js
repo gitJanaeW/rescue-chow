@@ -10,15 +10,6 @@ const rescueSchema = new Schema(
             type: String,
             required: false
         },
-        category: {
-            type: Schema.Types.ObjectId,
-            ref: 'Category',
-            required: true
-        },
-        price: {
-            type: Number,
-            required: true,
-        },
     },
     {
         toJSON: {
