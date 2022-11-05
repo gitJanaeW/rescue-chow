@@ -53,16 +53,16 @@ function App() {
             <Cart setOpen={setOpen} open={open} />
 
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/who-we-are" element={<WhoWeAre />} />
-              <Route path="/shop" element={<OrderNow />} />
-              <Route path="/find-a-rescue" element={<FindARescue />} />
-              <Route path="/get-in-touch" element={<GetInTouch />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/success" element={<Success />} />
-              <Route path="/orderHistory" element={<OrderHistory />} />
-              <Route path="/products/:id" element={<Detail />} />
+              <Route path="#" element={<Home />} />
+              <Route path="#who-we-are" element={<WhoWeAre />} />
+              <Route path="#shop" element={<OrderNow />} />
+              <Route path="#find-a-rescue" element={<FindARescue />} />
+              <Route path="#get-in-touch" element={<GetInTouch />} />
+              <Route path="#login" element={<Login />} />
+              <Route path="#signup" element={<Signup />} />
+              <Route path="#success" element={<Success />} />
+              <Route path="#orderHistory" element={<OrderHistory />} />
+              <Route path="#products/:id" element={<Detail />} />
               <Route path="*" element={<NoMatch />} />
             </Routes>
           </StoreProvider>
