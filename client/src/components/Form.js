@@ -57,7 +57,7 @@ function RescueForm() {
         {state.rescues.map((rescue) =>
             <div className="relative flex items-start py-4" key={rescue._id}>
               <div className="min-w-0 flex-1 text-sm">
-                <a href={rescue.website} target="_blank">
+                <a href={rescue.website} rel="noopener">
                   <label
                     htmlFor={rescue.name}
                     className="select-none font-medium text-gray-700"
