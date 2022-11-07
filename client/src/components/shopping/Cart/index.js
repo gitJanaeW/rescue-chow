@@ -133,7 +133,7 @@ const Cart = (props) => {
                           Checkout
                         </button>
                       ) : (
-                        <span>(log in to check out)</span>
+                        <span>(your session timed out, please log back in to checkout)</span>
                       )}
                     </div>
                   </div>

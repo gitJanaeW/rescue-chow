@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken');
 const secret = "secretsauce";
-const expiration = '2h';
+const expiration = 30;
 
 module.exports = {
     // create token (aka 'sign' token)
     signToken: function ({ username, email, _id }) {
-        const payload = { username, email, _id, expiredIn: expiration };
-        return jwt.sign({ data: payload }, secret);
+        const payload = { username, email, _id };
+        return jwt.sign({ data: payload, exp:Math.floor(Date.now() / 1000) + expiration }, secret);
     },
     // authenticate token
     authMiddleware: function ({ req }) {
