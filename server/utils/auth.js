@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const secret = "secretsauce";
-const expiration = 30;
+const expiration = 60*60*24;
 
 module.exports = {
     // create token (aka 'sign' token)
